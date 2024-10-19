@@ -236,8 +236,15 @@ footer{
   gap: 25px 5px;
   margin-top:50px;
 }
+
+#search-section{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 25px 5px;
+  margin-top:50px;
+}
 .track-name, .artist-name{
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   margin-left: 6px;
   margin-top: 5px;
 }
@@ -350,4 +357,19 @@ footer{
 }
 .album-musics-toplay-div{
   width: 50%;
+}
+
+
+/* style of audio */
+
+#audio-div{
+  background-color: aliceblue;
+  width: 100%;
+}
+
+#audio{
+  background-color: rgb(1, 3, 5);
+  width: 100%;
+  color: #0be994;
+  object-fit: cover;
 }
