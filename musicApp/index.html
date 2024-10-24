@@ -98,8 +98,8 @@
         </section>
 
         <section id="choosen-music">
-          <div class="choosen-music-main-div">
-            <div class="choosen-music-above-div">
+          <div class="choosen-music-main-div" id="choosen-music-div">
+            <!-- <div class="choosen-music-above-div">
               <div class="album-image-choosen-music-div">
                 <img class="choosen-music-album-img" src="./main-icons/house.jpg" alt="">
               </div>
@@ -147,13 +147,9 @@
                   <p class="duration-text">3:34</p>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
-        </section>
-
-        <section id="search-section">
-
         </section>
 
 
@@ -201,18 +197,57 @@
         </footer>
 
       </section>
-    </div>
 
-    <div id="audio-div">
-      <audio controls id="audio">
-        <source id="audio" src="">
-      </audio>
+
+
     </div>
-    
   </main>
 
-  
+  <div id="waveform"></div>
+  <button class="play-btn">CLICK MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</button>
 
   <script src="./script.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js"></script>
+  <script>
+    const waveform = document.getElementById("waveform")
+    const wavesurfer = WaveSurfer.create({
+      "container": "#waveform",
+      "height": 25,
+      "width": 300,
+      "splitChannels": false,
+      "normalize": false,
+      "waveColor": "#ffffff",
+      "progressColor": "#0be994",
+      "cursorColor": "#000000",
+      "cursorWidth": 2,
+      "barWidth": 2,
+      "barGap": 2,
+      "barRadius": null,
+      "barHeight": null,
+      "barAlign": "",
+      "minPxPerSec": 1,
+      "fillParent": true,
+      "url": "./audio.mp3",
+      "autoplay": false,
+      "interact": true,
+      "dragToSeek": true,
+      "hideScrollbar": false,
+      "audioRate": 1,
+      "autoScroll": true,
+      "autoCenter": true,
+      "sampleRate": 8000
+    })
+
+
+    const playBtn = document.querySelector('.play-btn');
+
+    wavesurfer.on('ready', function(){
+      playBtn.addEventListener('click', () => {
+        wavesurfer.playPause();
+        playBtn.textContent = wavesurfer.isPlaying() ? "Pause" : "Play";
+      })
+    })
+  </script>
+
 </body>
 </html>
