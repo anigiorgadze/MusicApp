@@ -203,6 +203,8 @@ showAllSection1.addEventListener("click", function(){
 
 
 
+
+
 // ALBUMS -------------------------------------------
 
 const albumsDiv = document.getElementById("albums-div");
@@ -712,9 +714,265 @@ showAllSection3.addEventListener("click", function(){
 })
 
 
+// search
+
+const searchInput = document.getElementById("search-input")
+const searchSection = document.getElementById("search-section")
+
+searchInput.addEventListener("input", (e) =>{
+
+    searchSection.style.display = "grid"
+    for(let i=0; i<mainDisplay.length; i++){
+      mainDisplay[i].style.display = "none"
+    }
+
+    let inpuValue = e.target.value.toLowerCase()
+
+    console.log(inpuValue)
+    const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+      return response.json();
+    }).then((data) => {
+
+      let nameOfarr = data.results.map((item) =>{
+        let result = item.name
+        return [result.toLowerCase(),item.image,item.name,item.artist_name,item.audio]
+      })
+
+      console.log(nameOfarr)
+      let newArr = nameOfarr.filter((item) =>{
+        return item[0].includes(inpuValue)
+      })
+
+      searchSection.innerHTML = ""
+      console.log(newArr)
+      for(let i=0;i<newArr.length;i++){
+        console.log(newArr[i][1].image)
+        searchSection.innerHTML += `<div class="poster-div">
+                    <div class="poster-img-div">
+                      <img class="poster-img" src="${newArr[i][1]}" alt="">
+                    </div>
+                    <img class="play-icon" src="./main-icons/play-icon1.png" alt="">
+                    <p class="track-name">${newArr[i][0]}</p>
+                    <p class="artist-name">${newArr[i][3]}</p>
+                  </div>`
+      }
+      const posterDivHover = document.getElementsByClassName('poster-div');
+      const playIcon = document.getElementsByClassName("play-icon");
+      for(let i=0; i < posterDivHover.length; i++){
+        posterDivHover[i].addEventListener("mouseover", function(){
+            playIcon[i].style.visibility = 'visible'
+            playIcon[i].style.translate = '0px -10px';
+            playIcon[i].style.opacity = '1';
+        })
+      }
+      for(let i=0; i < posterDivHover.length; i++){
+        posterDivHover[i].addEventListener("mouseout", function(){
+            playIcon[i].style.opacity = '0';
+            playIcon[i].style.visibility = 'hidden'
+            playIcon[i].style.translate = '0px 10px';
+        })
+      }
+
+      if(searchInput.value == ""){
+        for(let i=0; i<mainDisplay.length; i++){
+          mainDisplay[i].style.display = "grid"
+          searchSection.style.display = "none"
+        }
+
+      }
+  })
+
+})
 
 
 
+
+// registration
+
+let btnOfsingup = document.getElementById("sign-up-button")
+let buttonOflog = document.getElementsByClassName("gol-in1")
+// sing up ///
+let Line = document.getElementsByClassName("line")
+// 
+
+let EmailOfregister = document.getElementById("email")
+let ButtonOfregisterpart1 = document.getElementById("button")
+let PassOfregister = document.getElementById("pass")
+let CircleOfregister = document.getElementsByClassName("circle")
+let ButtonOfpass = document.getElementById("button-of-pass")
+let NameOfregister = document.getElementById("name")
+let SurnameOfregister = document.getElementById("surname")
+let DateOfregister = document.getElementById("date")
+
+// 
+let LabelOfEmail = document.getElementById("label-of-email")
+let LabelOfPass = document.getElementById("label-of-pass")
+let LabelOfre = document.getElementsByClassName("style-of-label-re")
+
+
+// 
+let Button = document.getElementsByClassName("style-of-btn")
+
+
+let ContainOfsingup = document.getElementById("register-container")
+let ContainOflogin = document.getElementById("log-container")
+// 
+let ContainerOfForm1 = document.getElementById("register-container-part1")
+let ContainerOfForm2 = document.getElementById("register-container-part2")
+let ContainerOfForm3 = document.getElementById("register-container-part3")
+
+function DateOfuser(email,password,username,usersurname,birthday){
+  this.email = email,
+  this.password = password,
+  this.username = username,
+  this.usersurname = usersurname,
+  this.birthday = birthday
+}
+
+let singBoolen = false
+
+btnOfsingup.addEventListener("click", () =>{
+  singBoolen = !singBoolen
+  
+  if(singBoolen){
+    ContainOfsingup.style.display = "flex"
+    ContainerOfForm1.style.display = "flex"
+  }else{
+    ContainOfsingup.style.display = "none"
+    ContainerOfForm1.style.display = "none"
+  }
+  
+})
+
+let logBoolen = false
+
+buttonOflog[0].addEventListener("clich", () =>{
+
+  console.log("ok")
+  // logBoolen = !logBoolen
+  // if(singBoolen){
+  //   ContainOflogin.style.display = "flex"
+
+  // }else{
+  //   ContainOflogin.style.display = "none"
+    
+  // }
+
+})
+// form1
+let MyArr = []
+
+Button[0].addEventListener("click", () =>{
+  if(!String(EmailOfregister.value).includes("@")){
+    LabelOfEmail.innerHTML = "Please enter correct Email address!!!"
+    LabelOfEmail.style.color = "red"
+    Button[0].style.backgroundColor = "red"
+    EmailOfregister.value = ""
+  }else{
+    Line[0].style.backgroundColor = "#0be994"
+    LabelOfEmail.innerHTML = "Email address"
+    LabelOfEmail.style.color = "#ffffffbf"
+    Button[0].style.backgroundColor = "#0be994"
+    MyArr.push(EmailOfregister.value)
+    EmailOfregister.value = ""
+    ContainerOfForm1.style.display = "none"
+    ContainerOfForm2.style.display = "flex"
+  }
+  console.log(MyArr)
+})
+
+// form2
+// let 
+
+PassOfregister.addEventListener("input", () =>{
+
+  CircleOfregister[0].style.backgroundColor = "red"
+  CircleOfregister[1].style.backgroundColor = "red"
+  CircleOfregister[2].style.backgroundColor = "red"
+
+  let checkletter = /[a-zA-Z]/.test(PassOfregister.value)
+  let checkcharct = /[!@#$%&0-9]/.test(PassOfregister.value)
+
+  if(checkletter){
+    CircleOfregister[0].style.backgroundColor = "#0be994"
+  }
+  if(checkcharct){
+    CircleOfregister[1].style.backgroundColor = "#0be994"
+  }
+  if(PassOfregister.value.length >=10){
+    CircleOfregister[2].style.backgroundColor = "#0be994"
+  }
+
+  Button[1].addEventListener("click", () =>{
+    if(checkletter === true && checkcharct === true && PassOfregister.value.length >=10){
+      Line[0].style.backgroundColor = "#0be994"
+      Line[1].style.backgroundColor = "#0be994"
+      Button[1].style.backgroundColor = "#0be994"
+      LabelOfPass.innerHTML = "Password"
+      LabelOfPass.style.color = "#ffffffbf"
+      ContainerOfForm2.style.display = "none"
+      ContainerOfForm3.style.display = "flex"
+
+    }else{
+      Button[1].style.backgroundColor = "red"
+      LabelOfPass.innerHTML = "Please enter correct password !!!"
+      LabelOfPass.style.color = "red"
+    }
+
+  })
+
+})
+
+// form3
+Button[2].addEventListener("click", () =>{
+  let sum = 0
+
+  if(NameOfregister.value === ""){
+    LabelOfre[0].style.color = "red"
+    NameOfregister.style.borderColor = "red"
+    Button[2].style.backgroundColor = "red"
+  }else{
+    sum += 1
+    Button[2].style.backgroundColor = "#0be994"
+    LabelOfre[0].style.color = "#ffffffbf"
+    NameOfregister.style.borderColor = "#ffffffbf"
+    // NameOfregister.value = ""
+  }
+
+  if(SurnameOfregister.value === ""){
+    Button[2].style.backgroundColor = "red"
+    LabelOfre[1].style.color = "red"
+    SurnameOfregister.style.borderColor = "red"
+  }else{
+    sum += 1
+    Button[2].style.backgroundColor = "#0be994"
+    LabelOfre[1].style.color = "#ffffffbf"
+    SurnameOfregister.style.borderColor = "#ffffffbf"
+    // SurnameOfregister.value = ""
+  }
+
+  if(DateOfregister.value === ""){
+    Button[2].style.backgroundColor = "red"
+    LabelOfre[2].style.color = "red"
+    DateOfregister.style.borderColor = "red"
+  }else{
+    sum += 1
+    Button[2].style.backgroundColor = "#0be994"
+    LabelOfre[2].style.color = "#ffffffbf"
+    DateOfregister.style.borderColor = "#ffffffbf"
+    // DateOfregister.value = ""
+  }
+
+  if(sum === 3){
+    Line[0].style.backgroundColor = "#0be994"
+    Line[1].style.backgroundColor = "#0be994"
+    Line[2].style.backgroundColor = "#0be994"
+    NameOfregister.value = ""
+    SurnameOfregister.value = ""
+    DateOfregister.value = ""
+  }
+  // console.log(sum)
+})
 
 
 // const albumMusics = ` <div class="artists-music-div-play">

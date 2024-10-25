@@ -24,7 +24,7 @@
 
       <div class="sign-log-div">
         <button id="sign-up-button">Sign up</button>
-        <button id="log-in-button">Log in</button>
+        <button id="log-in-button" class="gol-in1">Log in</button>
       </div>      
     </nav>
   </header>
@@ -50,7 +50,6 @@
       </div>
 
       <section id="main-section">
-
 
         <section id="section-1" class="section-none">
           <div class="tracks-main-div">
@@ -88,14 +87,12 @@
               <button id="show-all-button-section-3" class="show-all-button">Show all</button>
             </div>
 
-
             <div id="artists-div">
 
             </div>
           </div>
-
-
         </section>
+
 
         <section id="choosen-music">
           <div class="choosen-music-main-div" id="choosen-music-div">
@@ -152,6 +149,13 @@
           </div>
         </section>
 
+        <section id="search-section">
+
+        </section>
+
+
+
+
 
         <footer>
           <div class="footer-main-div">
@@ -195,18 +199,74 @@
             </div>
           </div>
         </footer>
-
       </section>
-
-
-
     </div>
-  </main>
 
-  <div id="waveform"></div>
+
+    
+  <!-- register -->
+  <div id="register-container" data-aos="fade-down">
+    <div id="titel-of-registerconteinet">
+      <h2 id="titel-ofsing-up">Sign Up</h2>
+      <div id="contein-of-line">
+        <div class="line1 line"></div>
+        <div class="line2 line"></div>
+        <div class="line3 line"></div>
+      </div>
+    </div>
+    <form id="register">
+        <div id="register-container-part1">
+            <img src="/musicApp/header-icons/analogo.png" alt="" width="120px" style="margin-bottom: 30px;">
+            <label for="email" class="style-of-label" id="label-of-email">Email address</label>
+            <input id="email" type="text"  class="style-of-input"> 
+            <input type="button"  value="next" id="btn-of-email"  class="style-of-btn">
+        </div>
+
+        <div id="register-container-part2">
+            <img src="/musicApp/header-icons/analogo.png" alt="" width="100px" style="margin-bottom: 5px;">
+            <label for="pass" class="style-of-label" id="label-of-pass">Password</label>
+            <input id="pass" type="password" class="style-of-input">
+            
+            <div class="password-decription">
+              <h6>Your password must contain at least:</h6>
+              <div id="promis-of-password">
+                <div  class="div-of-circle"><div class="circle1 circle"></div> <p class="condition1 condition">1 Letter</p></div>
+                <div  class="div-of-circle"><div class="circle2 circle"></div> <p class="condition2 condition">1 Number or special character (example: # ? ! &)</p></div> 
+                <div  class="div-of-circle"><div class="circle3 circle"></div> <p class="condition3 condition">10 characters</p></div>
+              </div>
+            </div>
+            <input type="button" value="next" class="style-of-btn"  id="button-of-pass">
+        </div>
+        <div id="register-container-part3">
+            <label for="name" class="style-of-label style-of-label-re">Name</label>
+            <input type="text"  class="style-of-input" id="name">
+            <label for="surname" class="style-of-label style-of-label-re">Surname</label>
+            <input type="text"  class="style-of-input " id="surname">
+            <label for="date" class="style-of-label style-of-label-re">Birthdate</label>
+            <input type="date" class="style-of-input" id="date">
+            <input type="button" value="Register" class="style-of-btn   style-of-btn-register">
+        </div>
+    </form>
+  </div>
+  <div id="log-container">
+    <form id="log-in">
+      <img src="/musicApp/header-icons/analogo.png" alt="" width="120px" style="margin-bottom: 30px; align-self: center;">
+      <label for="email-ofregister" class="style-of-label" id="email-label-ofregister">Email address</label>
+      <input type="text" id="email-ofregister" class="style-of-input">
+      <label for="password-ofregister" class="style-of-label" id="label-ofregitration1">Password</label>
+      <input type="text" id="password-ofregister" class="style-of-input">
+      <input type="button" value="Log in" id="btn-ofregister" class="style-of-btn">
+    </form>
+  </div>
+  
+  </main>
+  <script src="./script.js"></script> 
+  
+  <!-- <div id="waveform"></div>
   <button class="play-btn">CLICK MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</button>
 
-  <script src="./script.js"></script>
+  
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="https://unpkg.com/wavesurfer.js"></script>
   <script>
     const waveform = document.getElementById("waveform")
@@ -247,7 +307,7 @@
         playBtn.textContent = wavesurfer.isPlaying() ? "Pause" : "Play";
       })
     })
-  </script>
+  </script> -->
 
 </body>
 </html>
