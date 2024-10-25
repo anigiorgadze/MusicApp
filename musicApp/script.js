@@ -846,17 +846,15 @@ btnOfsingup.addEventListener("click", () =>{
 
 let logBoolen = false
 
-buttonOflog[0].addEventListener("clich", () =>{
+buttonOflog[0].addEventListener("click", () =>{
 
-  console.log("ok")
-  // logBoolen = !logBoolen
-  // if(singBoolen){
-  //   ContainOflogin.style.display = "flex"
-
-  // }else{
-  //   ContainOflogin.style.display = "none"
+  logBoolen = !logBoolen
+  if(logBoolen){
+    ContainOflogin.style.display = "flex"
     
-  // }
+  }else{
+    ContainOflogin.style.display = "none"
+  }
 
 })
 // form1
