@@ -682,3 +682,7 @@ h6{
 #email-ofregister{
   margin-bottom: 5px 0;
 }
+
+.artist-id{
+  display: none;
+}
