@@ -142,7 +142,6 @@ showAllSection1.addEventListener("click", function(){
         })
       }
 
-
       for(let i=0; i < posterDivHover.length; i++){
         posterDivHover[i].addEventListener("click", function(){
           for(let i=0; i<mainDisplay.length; i++){
@@ -188,6 +187,8 @@ showAllSection1.addEventListener("click", function(){
       }
 
 
+
+
       for(let i=0; i < posterDivHover.length; i++){
         posterDivHover[i].addEventListener("click", function(){
           for(let j=0; j<mainDisplay.length; j++){
@@ -221,6 +222,7 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
                 <img class="play-icon1" src="./main-icons/play-icon1.png" alt="">
                 <p class="track-name">${data.results[i].name}</p>
                 <p class="artist-name">${data.results[i].artist_name}</p>
+                <p class="artist-id">${data.results[i].id}</p>
               </div>`
   }
   const posterDivHover1 = document.getElementsByClassName('poster-div1');
@@ -240,12 +242,75 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
     })
   }
 
+
+  const choosenTrack = document.getElementById("choosen-music-div")
+  chooseMusic.style.display = 'block'
   
   for(let i=0; i < posterDivHover1.length; i++){
     posterDivHover1[i].addEventListener("click", function(){
-      for(let i=0; i<mainDisplay.length; i++){
-        mainDisplay[i].style.display = "none"
-      }
+      console.log(posterDivHover1[i].querySelector(".artist-name").innerHTML)
+      const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+        return response.json();
+      }).then((data1) =>{
+        let artistName = ` <div class="music-title-date-added-div">
+                        <div class="title-div">
+                          <p class="order discription">#<span class="title-span">Title</span></p>
+                        </div>
+
+
+                        <div class="clockwise-div">
+                          <img class="clockwise-icon" src="./main-icons/clockwise.png" alt="clockwise">
+                        </div>
+                      </div>`
+            let chooseMusicHead = `<div class="choosen-music-above-div">
+                      <div class="album-image-choosen-music-div">
+                        <img class="choosen-music-album-img" src=${posterDivHover1[i].querySelector(".poster-img").src} alt="">
+                      </div>
+                      
+                      <div class="album-artist-name-div">
+                        <h1 class="choose-music-name-album"></h1>
+                        <div class="choose-music-name-artist-div">
+                          <h6 class="choose-music-name-artist-text">${posterDivHover1[i].querySelector(".artist-name").innerHTML}<span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
+                        </div>
+                      </div>
+                    
+                    </div>
+
+                    <div class="play-music-album-padding">
+                      <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
+                      <button class="play-music-album1">CLICK</button>
+                      <div id="waveform"></div>
+                    </div>` 
+            choosenTrack.innerHTML = ''
+            choosenTrack.innerHTML += chooseMusicHead
+            choosenTrack.innerHTML += artistName;
+        for(let x = 0;x <20;x++){
+          if(data1.results[x].id.includes(i)){
+            choosenTrack.innerHTML +=  `<div class="artists-music-div-play">
+            <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${x+1}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data1.results[x].name}</p>
+                <p class="group-name-order">${data1.results[x].artist_name}</p>
+              </div>
+              
+            </div>
+              <div class="add-music-div-duration">
+                <img class="add-button-order" src="./main-icons/add.png" alt="">
+                <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
+              </div>
+            </div>`;
+          }
+        }
+        for(let i=0; i<mainDisplay.length; i++){
+              mainDisplay[i].style.display = "none"
+        }
+        
+        
+      })
+       
+    
     })
   }
 })
@@ -267,7 +332,7 @@ showAllSection2.addEventListener("click", function(){
     }).then((data) => {
       console.log(data);
       for(let i=110; i<130; i++){
-        albumsDiv.innerHTML+= `              <div class="poster-div1">
+        albumsDiv.innerHTML+= `<div class="poster-div1">
                     <div class="poster-img-div">
                       <img class="poster-img" src="${data.results[i].image}" alt="">
                     </div>
@@ -298,11 +363,14 @@ showAllSection2.addEventListener("click", function(){
       }
 
 
+
+
       for(let i=0; i < posterDivHover1.length; i++){
         posterDivHover1[i].addEventListener("click", function(){
           for(let i=0; i<mainDisplay.length; i++){
             mainDisplay[i].style.display = "none"
           }
+          
         })
       }
 
@@ -336,6 +404,7 @@ showAllSection2.addEventListener("click", function(){
       }
       for(let i=0; i < posterDivHover1.length; i++){
         posterDivHover1[i].addEventListener("mouseout", function(){
+
           playIcon1[i].style.opacity = '0';
           playIcon1[i].style.visibility = 'hidden'
           playIcon1[i].style.translate = '0px 10px';
@@ -345,14 +414,32 @@ showAllSection2.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover1.length; i++){
         posterDivHover1[i].addEventListener("click", function(){
+
+          // console.log(posterDivHover1[i].querySelector(".track-name"))
           for(let j=0; j<mainDisplay.length; j++){
             mainDisplay[j].style.display = "none"
           }
         })
       }
     })
+  
   }
+
+  // playlist ---------
+    
+  // for (let i = 0;i<posterDivHover1.length;i++){
+  //   posterDivHover1.addEventListener("click" ,() =>{
+  //     console.log(posterDivHover1[i].querySelector(".track-name"))
+  //   })
+    
+  // }
+
+
+
+
+
 })
+
 
 
 // --------------------------------------------------
@@ -373,7 +460,7 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
     }else{
       artistImg = data.results[i].image;
     }
-    artistsDiv.innerHTML+= `              <div class="poster-div2">
+    artistsDiv.innerHTML+= `<div class="poster-div2">
                 <div class="poster-img-div">
                   <img class="poster-img artist-round" src="${artistImg}" alt="">
                 </div>
@@ -402,7 +489,7 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
   const myFetch = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
     return response.json();
   }).then((data) => {
-    console.log(data);
+    // console.log(data);
     for(let i=0; i < posterDivHover2.length; i++){
       posterDivHover2[i].addEventListener("click", function(){
         const myArtistName = posterDivHover2[i].querySelector(".track-name");
@@ -620,7 +707,7 @@ showAllSection3.addEventListener("click", function(){
         }else{
           artistImg = data.results[i].image;
         }
-        artistsDiv.innerHTML+= `              <div class="poster-div2">
+        artistsDiv.innerHTML+= `<div class="poster-div2">
                     <div class="poster-img-div">
                       <img class="poster-img artist-round" src="${artistImg}" alt="">
                     </div>
