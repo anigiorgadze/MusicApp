@@ -1,4 +1,4 @@
-// import WaveSurfer from "wavesurfer.js";
+// import WaveSurfer from 'wavesurfer.js'
 
 // const waveform = document.getElementById("waveform")
 // const wavesurfer = WaveSurfer.create({

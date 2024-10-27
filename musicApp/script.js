@@ -1,4 +1,17 @@
 
+let userData = {
+  name:"",
+  email:"",
+  password:"",
+  music:[]
+}
+
+function addLocalStorage(listName,item){
+  localStorage.setItem(listName,item)
+  return localStorage.getItem('key','value')
+
+}
+// localStorage.clear()
 const myKey = `b71e321d32ba1844cc0df4d9d8a583a2`;
 const myApi = `https://api.jamendo.com/v3.0/tracks/?client_id=fd9b5391&limit=100&order=popularity_total_desc`
 
@@ -170,7 +183,9 @@ const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b539
 
             addMusicBtn[a].addEventListener('click',()=>{
               console.log( artistDiv[a])
-              // console.log(addMusicBtn[a].parentElement.parentElement.querySelector("."))
+              // addLocalStorage('sss',JSON.stringify([`${artistDiv[a].querySelector(".song-name-order").innerHTML}`,`${artistDiv[a].querySelector(".group-name-order").innerHTML}`]))
+              userData.music.push([`${artistDiv[a].querySelector(".song-name-order").innerHTML}`,`${artistDiv[a].querySelector(".group-name-order").innerHTML}`])
+              console.log(userData)
             })
           }
           
@@ -1562,11 +1577,14 @@ Button[0].addEventListener("click", () =>{
     LabelOfEmail.style.color = "#ffffffbf"
     Button[0].style.backgroundColor = "#0be994"
     MyArr.push(EmailOfregister.value)
+    userData.email = EmailOfregister.value
     EmailOfregister.value = ""
     ContainerOfForm1.style.display = "none"
     ContainerOfForm2.style.display = "flex"
   }
   console.log(MyArr)
+
+  
 })
 
 // form2
@@ -1608,6 +1626,8 @@ PassOfregister.addEventListener("input", () =>{
     }
 
   })
+
+  userData.password = PassOfregister.value
 
 })
 
@@ -1655,11 +1675,15 @@ Button[2].addEventListener("click", () =>{
     Line[0].style.backgroundColor = "#0be994"
     Line[1].style.backgroundColor = "#0be994"
     Line[2].style.backgroundColor = "#0be994"
+    userData.name = NameOfregister.value
     NameOfregister.value = ""
     SurnameOfregister.value = ""
     DateOfregister.value = ""
+
   }
-  
+  console.log(sum)
+
+
 })
 
 
