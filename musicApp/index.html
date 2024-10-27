@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rhythmix</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="media.css">
+  <script src="https://unpkg.com/wavesurfer.js@7"></script>
 </head>
+
 <body>
   <header>
     <nav>
@@ -15,7 +19,7 @@
 
       <div class="search-div">
         <form id="header-form">
-          <button id="submit-button-search">
+          <button type="button" id="submit-button-search">
             <img class="search-logo" src="./header-icons/search.png" alt="search-icon">
           </button>
           <input id="search-input" type="text" placeholder="What do you want to play?">
@@ -25,7 +29,7 @@
       <div class="sign-log-div">
         <button id="sign-up-button">Sign up</button>
         <button id="log-in-button" class="gol-in1">Log in</button>
-      </div>      
+      </div>
     </nav>
   </header>
 
@@ -40,11 +44,11 @@
                 <p class="your-library">Your Library</p>
               </div>
             </div>
-  
+
             <div id="liked-songs-div">
-  
+
             </div>
-  
+
           </div>
         </aside>
       </div>
@@ -93,25 +97,28 @@
           </div>
         </section>
 
+        <!-- ------------------ -->
+        <!-- choose music -->
 
         <section id="choosen-music">
           <div class="choosen-music-main-div" id="choosen-music-div">
-            <!-- <div class="choosen-music-above-div">
+            <div class="choosen-music-above-div">
               <div class="album-image-choosen-music-div">
                 <img class="choosen-music-album-img" src="./main-icons/house.jpg" alt="">
               </div>
-              
+
               <div class="album-artist-name-div">
                 <h1 class="choose-music-name-album">AM</h1>
                 <div class="choose-music-name-artist-div">
-                  <h6 class="choose-music-name-artist-text">Artict Monkeys <span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
+                  <h6 class="choose-music-name-artist-text"></h6>
                 </div>
               </div>
-            
+
             </div>
 
             <div class="play-music-album-padding">
-              <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
+              <img id="playBtn" class="play-music-album" src="./main-icons/play-icon1.png" alt="">
+              <div id="waveform"></div>
             </div>
 
             <div class="album-musics-toplay-div">
@@ -127,24 +134,28 @@
                 </div>
               </div>
 
+              <div id="musics-lists">
+                <!-- <div class="artists-music-div-play">
+                  <div class="music-order-div">
+                    <img class="play-music-order" src="./main-icons/play.png" alt="">
+                    <p class="music-order-number">1</p>
+                    <div class="artist-album-name-order-div">
+                      <p class="song-name-order">IV dasi - abiturientebssa</p>
+                      <p class="group-name-order">IV DASI</p>
+                      </div>
+                    </div>
 
-              <div class="artists-music-div-play">
-                <div class="music-order-div">
-                  <img class="play-music-order" src="./main-icons/play.png" alt="">
-                  <p class="music-order-number">1</p>
-                  <div class="artist-album-name-order-div">
-                    <p class="song-name-order">IV dasi - abiturientebssa</p>
-                    <p class="group-name-order">IV DASI</p>
-                  </div>
-                </div>
 
-
-                <div class="add-music-div-duration">
-                  <img class="add-button-order" src="./main-icons/add.png" alt="">
-                  <p class="duration-text">3:34</p>
-                </div>
+                    <div class="add-music-div-duration">
+                      <img class="add-button-order" src="./main-icons/add.png" alt="">
+                      <p class="duration-text">3:34</p>
+                    </div>
+                  </div> -->
               </div>
-            </div> -->
+
+
+
+            </div>
 
           </div>
         </section>
@@ -161,29 +172,37 @@
           <div class="footer-main-div">
             <div class="footer-grid">
               <ul>
-                <li><p class="footer-title-bold">Company</p></li>
+                <li>
+                  <p class="footer-title-bold">Company</p>
+                </li>
                 <li>About</li>
                 <li>Jobs</li>
                 <li>For the Record</li>
               </ul>
-      
+
               <ul>
-                <li><p class="footer-title-bold">Communities</p></li>
+                <li>
+                  <p class="footer-title-bold">Communities</p>
+                </li>
                 <li>For artists</li>
                 <li>Developers</li>
                 <li>Advertising</li>
                 <li>Investors</li>
                 <li>Vendors</li>
               </ul>
-      
+
               <ul>
-                <li><p class="footer-title-bold">Useful links</p></li>
+                <li>
+                  <p class="footer-title-bold">Useful links</p>
+                </li>
                 <li>Support</li>
                 <li>Free Mobile App</li>
               </ul>
-      
+
               <ul>
-                <li><p class="footer-title-bold">Spotify Plans</p></li>
+                <li>
+                  <p class="footer-title-bold">Spotify Plans</p>
+                </li>
                 <li>Premium Individual</li>
                 <li>Premium Duo</li>
                 <li>Premium Family</li>
@@ -203,71 +222,82 @@
     </div>
 
 
-    
-  <!-- register -->
-  <div id="register-container" data-aos="fade-down">
-    <div id="titel-of-registerconteinet">
-      <h2 id="titel-ofsing-up">Sign Up</h2>
-      <div id="contein-of-line">
-        <div class="line1 line"></div>
-        <div class="line2 line"></div>
-        <div class="line3 line"></div>
+
+    <!-- register -->
+    <div id="register-container" data-aos="fade-down">
+      <div id="titel-of-registerconteinet">
+        <h2 id="titel-ofsing-up">Sign Up</h2>
+        <div id="contein-of-line">
+          <div class="line1 line"></div>
+          <div class="line2 line"></div>
+          <div class="line3 line"></div>
+        </div>
       </div>
-    </div>
-    <form id="register">
+      <form id="register">
         <div id="register-container-part1">
-            <img src="/musicApp/header-icons/analogo.png" alt="" width="120px" style="margin-bottom: 30px;">
-            <label for="email" class="style-of-label" id="label-of-email">Email address</label>
-            <input id="email" type="text"  class="style-of-input"> 
-            <input type="button"  value="next" id="btn-of-email"  class="style-of-btn">
+          <img src="/musicApp/header-icons/analogo.png" alt="" width="120px" style="margin-bottom: 30px;">
+          <label for="email" class="style-of-label" id="label-of-email">Email address</label>
+          <input id="email" type="text" class="style-of-input">
+          <input type="button" value="next" id="btn-of-email" class="style-of-btn">
         </div>
 
         <div id="register-container-part2">
-            <img src="/musicApp/header-icons/analogo.png" alt="" width="100px" style="margin-bottom: 5px;">
-            <label for="pass" class="style-of-label" id="label-of-pass">Password</label>
-            <input id="pass" type="password" class="style-of-input">
-            
-            <div class="password-decription">
-              <h6>Your password must contain at least:</h6>
-              <div id="promis-of-password">
-                <div  class="div-of-circle"><div class="circle1 circle"></div> <p class="condition1 condition">1 Letter</p></div>
-                <div  class="div-of-circle"><div class="circle2 circle"></div> <p class="condition2 condition">1 Number or special character (example: # ? ! &)</p></div> 
-                <div  class="div-of-circle"><div class="circle3 circle"></div> <p class="condition3 condition">10 characters</p></div>
+          <img src="/musicApp/header-icons/analogo.png" alt="" width="100px" style="margin-bottom: 5px;">
+          <label for="pass" class="style-of-label" id="label-of-pass">Password</label>
+          <input id="pass" type="password" class="style-of-input">
+
+          <div class="password-decription">
+            <h6>Your password must contain at least:</h6>
+            <div id="promis-of-password">
+              <div class="div-of-circle">
+                <div class="circle1 circle"></div>
+                <p class="condition1 condition">1 Letter</p>
+              </div>
+              <div class="div-of-circle">
+                <div class="circle2 circle"></div>
+                <p class="condition2 condition">1 Number or special character (example: # ? ! &)</p>
+              </div>
+              <div class="div-of-circle">
+                <div class="circle3 circle"></div>
+                <p class="condition3 condition">10 characters</p>
               </div>
             </div>
-            <input type="button" value="next" class="style-of-btn"  id="button-of-pass">
+          </div>
+          <input type="button" value="next" class="style-of-btn" id="button-of-pass">
         </div>
         <div id="register-container-part3">
-            <label for="name" class="style-of-label style-of-label-re">Name</label>
-            <input type="text"  class="style-of-input" id="name">
-            <label for="surname" class="style-of-label style-of-label-re">Surname</label>
-            <input type="text"  class="style-of-input " id="surname">
-            <label for="date" class="style-of-label style-of-label-re">Birthdate</label>
-            <input type="date" class="style-of-input" id="date">
-            <input type="button" value="Register" class="style-of-btn   style-of-btn-register">
+          <label for="name" class="style-of-label style-of-label-re">Name</label>
+          <input type="text" class="style-of-input" id="name">
+          <label for="surname" class="style-of-label style-of-label-re">Surname</label>
+          <input type="text" class="style-of-input " id="surname">
+          <label for="date" class="style-of-label style-of-label-re">Birthdate</label>
+          <input type="date" class="style-of-input" id="date">
+          <input type="button" value="Register" class="style-of-btn   style-of-btn-register">
         </div>
-    </form>
-  </div>
-  <div id="log-container">
-    <form id="log-in">
-      <img src="/musicApp/header-icons/analogo.png" alt="" width="120px" style="margin-bottom: 30px; align-self: center;">
-      <label for="email-ofregister" class="style-of-label" id="email-label-ofregister">Email address</label>
-      <input type="text" id="email-ofregister" class="style-of-input">
-      <label for="password-ofregister" class="style-of-label" id="label-ofregitration1">Password</label>
-      <input type="text" id="password-ofregister" class="style-of-input">
-      <input type="button" value="Log in" id="btn-ofregister" class="style-of-btn">
-    </form>
-  </div>
-  
+      </form>
+    </div>
+    <div id="log-container">
+      <form id="log-in">
+        <img src="/musicApp/header-icons/analogo.png" alt="" width="120px"
+          style="margin-bottom: 30px; align-self: center;">
+        <label for="email-ofregister" class="style-of-label" id="email-label-ofregister">Email address</label>
+        <input type="text" id="email-ofregister" class="style-of-input">
+        <label for="password-ofregister" class="style-of-label" id="label-ofregitration1">Password</label>
+        <input type="text" id="password-ofregister" class="style-of-input">
+        <input type="button" value="Log in" id="btn-ofregister" class="style-of-btn">
+      </form>
+    </div>
+
+
   </main>
-  <script src="./script.js"></script> 
-  
+  <script src="./script.js"></script>
+
   <!-- <div id="waveform"></div>
-  <button class="play-btn">CLICK MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</button>
+  <button style="position: absolute; z-index: 999; background-color: red;" class="play-btn">CLICK MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</button>
 
   
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://unpkg.com/wavesurfer.js"></script>
+  <script  src="https://unpkg.com/wavesurfer.js"></script>
   <script>
     const waveform = document.getElementById("waveform")
     const wavesurfer = WaveSurfer.create({
@@ -287,7 +317,7 @@
       "barAlign": "",
       "minPxPerSec": 1,
       "fillParent": true,
-      "url": "./audio.mp3",
+      "url": "/audio.mp3",
       "autoplay": false,
       "interact": true,
       "dragToSeek": true,
@@ -310,4 +340,5 @@
   </script> -->
 
 </body>
+
 </html>

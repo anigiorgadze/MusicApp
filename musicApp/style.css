@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -9,35 +10,40 @@
   color: #ffffffbf;
 }
 
-body{
+body {
   background-color: black;
-}
-
-main{
   position: relative;
 }
 
-header{
-  width: 100%;
+main {
+  position: relative;
+  top: 80px;
 }
 
-.logo{
+header {
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+}
+
+.logo {
   width: 60px;
   cursor: pointer;
   position: relative;
   top: 2px;
 }
 
-nav{
+nav {
   width: 100%;
   padding: 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #000000;
+
 }
 
-#submit-button-search{
+#submit-button-search {
   display: flex;
   align-items: center;
   background: none;
@@ -45,10 +51,12 @@ nav{
   filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(7deg) brightness(106%) contrast(101%);
   cursor: pointer;
 }
-.search-logo{
+
+.search-logo {
   width: 22px;
 }
-#search-input{
+
+#search-input {
   outline: none;
   font-size: 17px;
   padding: 0 10px;
@@ -58,7 +66,7 @@ nav{
   width: 100%;
 }
 
-#header-form{
+#header-form {
   display: flex;
   align-items: center;
   background-color: #2B2B2B;
@@ -68,7 +76,7 @@ nav{
   gap: 5px;
 }
 
-#sign-up-button{
+#sign-up-button {
   font-size: 16px;
   background-color: black;
   border: none;
@@ -78,7 +86,7 @@ nav{
   border-radius: 25px;
 }
 
-#log-in-button{
+#log-in-button {
   font-size: 16px;
   background-color: #0be994;
   border: none;
@@ -93,27 +101,30 @@ nav{
 
 /* ------------------------------------------ */
 
-main{
+main {
   width: 100%;
 }
-#main-container-div{
+
+#main-container-div {
   display: flex;
   gap: 8px;
   width: 100%;
 }
-.aside-div-relative{
+
+.aside-div-relative {
   position: relative;
   width: 20%;
 }
 
-#your-library-aside{
+#your-library-aside {
   width: 20%;
   background-color: #1D1D1D;
   border-radius: 10px;
   position: fixed;
-  height: 700px;
+  height: 100vh;
 }
-#main-section{
+
+#main-section {
   width: 80%;
   background-color: #1D1D1D;
   border-radius: 10px;
@@ -121,33 +132,37 @@ main{
   padding-left: 40px; */
 }
 
-.aside-main-div{
+.aside-main-div {
   display: flex;
   flex-direction: column;
 }
-.above-div-aside{
+
+.above-div-aside {
   width: 100%;
   margin-top: 15px;
 }
-.your-library-icon-div{
+
+.your-library-icon-div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0px 31px;
 }
-.library-icon{
+
+.library-icon {
   width: 40px;
 }
-.your-library{
+
+.your-library {
   font-size: 1.2rem;
 }
 
-.footer-title-bold{
+.footer-title-bold {
   color: white;
   font-weight: 600;
 }
 
-.show-all-button{
+.show-all-button {
   background: none;
   color: #0be994;
   font-size: 1rem;
@@ -156,6 +171,7 @@ main{
   border-bottom: 1px solid #0be994;
   border-bottom-style: dashed;
 }
+
 /* .show-all-button{
   background: none;
   color: #0be994;
@@ -167,13 +183,16 @@ main{
   border-radius: 6px;
 } */
 
-#section-1{
+#section-1 {
   margin-top: 15px;
 }
+
 /* #section-1, #section-2, #section-3{
   display: none;
 } */
-.tracks-for-you-show-div, .albums-for-you-show-div, .artists-for-you-show-div{
+.tracks-for-you-show-div,
+.albums-for-you-show-div,
+.artists-for-you-show-div {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -184,26 +203,36 @@ main{
   border-bottom: 1px solid rgba(255, 255, 255, 0.534);
   /* border-bottom-style: dashed; */
 }
-.albums-for-you-show-div, .artists-for-you-show-div{
+
+.albums-for-you-show-div,
+.artists-for-you-show-div {
   margin-top: 35px;
 }
-.tracks-text, .albums-text, .artists-text{
+
+.tracks-text,
+.albums-text,
+.artists-text {
   font-size: 1.6rem;
 }
 
-footer{
-  margin-top: 100px;
+footer {
+  padding-top: 30px;
+  /* margin-top: 100px; */
+  border-top: 1px solid rgba(255, 255, 255, 0.534);
+  ;
 }
 
-.poster-img-div{
+.poster-img-div {
   width: 200px;
   align-self: center;
 }
-.poster-img{
+
+.poster-img {
   width: 100%;
   border-radius: 5px;
 }
-.play-icon{
+
+.play-icon {
   width: 45px;
   align-self: flex-end;
   position: absolute;
@@ -215,7 +244,8 @@ footer{
   transition: 0.5s;
   opacity: 0;
 }
-.play-icon1{
+
+.play-icon1 {
   width: 45px;
   align-self: flex-end;
   position: absolute;
@@ -227,7 +257,8 @@ footer{
   transition: 0.5s;
   opacity: 0;
 }
-.play-icon2{
+
+.play-icon2 {
   width: 45px;
   align-self: flex-end;
   position: absolute;
@@ -239,7 +270,8 @@ footer{
   transition: 0.5s;
   opacity: 0;
 }
-.poster-div{
+
+.poster-div {
   /* border: 1px solid #909090; */
   padding: 15px;
   display: flex;
@@ -249,12 +281,14 @@ footer{
   border-radius: 10px;
   height: 340px;
 }
-.poster-div:hover{
+
+.poster-div:hover {
   transition: 0.3s;
   background-color: #393939;
   cursor: pointer;
 }
-.poster-div1{
+
+.poster-div1 {
   /* border: 1px solid #909090; */
   padding: 15px;
   display: flex;
@@ -264,12 +298,14 @@ footer{
   border-radius: 10px;
   height: 340px;
 }
-.poster-div1:hover{
+
+.poster-div1:hover {
   transition: 0.3s;
   background-color: #393939;
   cursor: pointer;
 }
-.poster-div2{
+
+.poster-div2 {
   /* border: 1px solid #909090; */
   padding: 15px;
   display: flex;
@@ -281,67 +317,85 @@ footer{
   text-align: center;
   gap: 5px;
 }
-.poster-div2:hover{
+
+.poster-div2:hover {
   transition: 0.3s;
   background-color: #393939;
   cursor: pointer;
 }
 
 
-#tracks-div{
+#tracks-div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 25px 5px;
-  margin-top:50px;
+  margin-top: 50px;
 }
-#albums-div{
+
+#albums-div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 25px 5px;
-  margin-top:35px;
+  margin-top: 35px;
 }
-#artists-div{
+
+#artists-div {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 25px 5px;
-  margin-top:35px;
+  margin-top: 35px;
 }
-.track-name, .artist-name{
+
+.track-name,
+.artist-name {
   font-size: 0.9rem;
   margin-left: 6px;
   margin-top: 5px;
 }
-.choosen-music-main-div{
+
+.choosen-music-main-div {
   margin-top: 0px;
 }
-.album-image-choosen-music-div{
+
+#choosen-music{
+  display: none;
+}
+
+.album-image-choosen-music-div {
   width: 300px;
 }
-.choosen-music-album-img{
+
+.choosen-music-album-img {
   width: 100%;
   border-radius: 6px;
 }
-.choosen-music-above-div{
+
+.choosen-music-above-div {
   display: flex;
   gap: 15px;
 }
-.album-artist-name-div{
+
+.album-artist-name-div {
   align-self: flex-end;
   margin-bottom: 2px;
 }
-.choose-music-name-album{
+
+.choose-music-name-album {
   font-size: 6rem;
   color: white;
 }
-.choose-music-name-artist-text{
+
+.choose-music-name-artist-text {
   color: white;
   font-size: 0.9rem;
 }
-.date-span{
+
+.date-span {
   font-weight: 300;
   font-size: 0.9rem;
 }
-.choosen-music-above-div{
+
+.choosen-music-above-div {
   background: linear-gradient(359deg, rgba(39, 39, 39, 1) 0%, rgb(112, 112, 112) 100%);
   padding: 40px 20px;
   padding-left: 40px;
@@ -349,39 +403,44 @@ footer{
   border-top-right-radius: 12px;
 }
 
-.album-musics-toplay-div{
+.album-musics-toplay-div {
   padding: 40px 20px;
   padding-left: 40px;
 }
-.play-music-album-padding{
+
+.play-music-album-padding {
   padding: 30px 20px;
   padding-left: 40px;
 }
-.play-music-album{
+
+.play-music-album {
   width: 55px;
   cursor: pointer;
   transition: 0.5s;
 }
-.play-music-album:hover{
+
+.play-music-album:hover {
   scale: 1.1;
 }
 
 
 
-.music-title-date-added-div{
+.music-title-date-added-div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 15px;
 }
-.title-div{
+
+.title-div {
   max-width: 450px;
 }
-.title-span{
+
+.title-span {
   margin-left: 10px;
 }
 
-.artists-music-div-play{
+.artists-music-div-play {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -391,39 +450,46 @@ footer{
   border-radius: 8px;
   height: 80px;
 }
-.artists-music-div-play:hover{
+
+.artists-music-div-play:hover {
   background-color: #5d5d5d;
 }
-.music-order-div{
+
+.music-order-div {
   display: flex;
   align-items: center;
   gap: 19px;
   max-width: 350px;
 }
-.play-music-order{
+
+.play-music-order {
   display: none;
   width: 18px;
-  
+
 }
-.add-button-order{
+
+.add-button-order {
   width: 18px;
   height: 18px;
   cursor: pointer;
 }
-.add-music-div-duration{
+
+.add-music-div-duration {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 72px;
 }
-.duration-text{
+
+.duration-text {
   font-size: 1.05rem;
 }
-.album-musics-toplay-div{
+
+.album-musics-toplay-div {
   width: 50%;
 }
 
-#choosen-music{
+#choosen-music {
   display: none;
 }
 
@@ -433,33 +499,35 @@ footer{
 
 /* search */
 
-#search-section{
+#search-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 25px 5px;
-  margin-top:50px;
+  margin-top: 50px;
 }
 
 /*  */
-.footer-main-div{
+.footer-main-div {
   /* display: flex; */
   display: grid;
   grid-template-columns: 80% 20%;
   padding: 20px 20px;
 }
-.footer-grid{
+
+.footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
 }
 
-.footer-icon-div{
+.footer-icon-div {
   background: none;
   display: flex;
   justify-content: end;
   gap: 6px;
 }
-.footer-icon{
+
+.footer-icon {
   width: 28px;
   height: 28px;
   cursor: pointer;
@@ -467,20 +535,20 @@ footer{
   background-color: #1D1D1D;
   border: 1px solid #1D1D1D;
 }
-.footer-icon:hover{
+
+.footer-icon:hover {
   scale: 1.1;
 }
 
-.artist-round{
+.artist-round {
   border-radius: 50%;
 }
 
 
 /* regitration */
 
-#register-container{
-  position: absolute
-  ;
+#register-container {
+  position: absolute;
   background: #000000eb;
   top: 100px;
   left: 50%;
@@ -502,24 +570,24 @@ footer{
 
 
 
-#contein-of-line{
+#contein-of-line {
   width: 100%;
   display: flex;
   align-items: center;
 
 }
 
-#titel-of-registerconteinet{
+#titel-of-registerconteinet {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom:40px;
+  margin-bottom: 40px;
   align-items: center;
 }
 
-.line{
+.line {
   width: 33.3%;
-  background-color:#ffffffbf;
+  background-color: #ffffffbf;
   height: 2px;
 }
 
@@ -529,7 +597,7 @@ footer{
 
 
 
-#register-container-part1{
+#register-container-part1 {
   /* align-self: center; */
   display: flex;
   flex-direction: column;
@@ -544,27 +612,27 @@ footer{
 
 
 
-.style-of-input{
+.style-of-input {
   width: 100%;
   background-color: #2B2B2B;
   border: 1px solid #ffffffbf;
   border-radius: 10px;
   padding: 5px 10px;
-  color:#ffffffbf;
+  color: #ffffffbf;
   margin-bottom: 20px;
   cursor: pointer;
 }
 
 
-.style-of-label{
+.style-of-label {
   align-self: self-start;
-  font-size:0.7rem;
+  font-size: 0.7rem;
   font-weight: 800;
-  
+
 
 }
 
-.style-of-btn{
+.style-of-btn {
   font-size: 16px;
   background-color: #0be994;
   border: none;
@@ -576,7 +644,7 @@ footer{
   transition: 0.8s;
 }
 
-.style-of-btn:hover{
+.style-of-btn:hover {
   scale: 1.03;
 }
 
@@ -584,7 +652,7 @@ footer{
 
 
 
-#register-container-part2{
+#register-container-part2 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -596,26 +664,26 @@ footer{
 }
 
 
-h6{
+h6 {
   font-weight: 500;
 }
 
-.condition{
+.condition {
   font-size: 0.7rem;
 }
 
-.password-decription{
-  margin-top:-10px;
+.password-decription {
+  margin-top: -10px;
   margin-bottom: 10px;
 }
 
-.div-of-circle{
+.div-of-circle {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.circle{
+.circle {
   width: 7px;
   height: 7px;
   /* background-color: aliceblue; */
@@ -623,14 +691,14 @@ h6{
   border-radius: 50%;
 }
 
-#promis-of-password{
+#promis-of-password {
   display: flex;
   flex-direction: column;
-  gap:7px;
+  gap: 7px;
   padding: 5px 8px;
 }
 
-#register-container-part3{
+#register-container-part3 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -642,16 +710,15 @@ h6{
 }
 
 
-.style-of-btn-register{
-  margin-top:20px;
+.style-of-btn-register {
+  margin-top: 20px;
 }
 
 
 /* log in */
 
-#log-container{
-  position: absolute
-  ;
+#log-container {
+  position: absolute;
   background: #000000eb;
   top: 100px;
   left: 50%;
@@ -665,7 +732,7 @@ h6{
   display: none;
 }
 
-#log-in{
+#log-in {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -675,14 +742,14 @@ h6{
   gap: 5px;
 }
 
-#btn-ofregister{
+#btn-ofregister {
   margin-top: 25px;
 }
 
-#email-ofregister{
+#email-ofregister {
   margin-bottom: 5px 0;
 }
 
-.artist-id{
+.artist-id {
   display: none;
 }

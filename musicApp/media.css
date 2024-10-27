@@ -1,0 +1,99 @@
+@media (max-width:1300px) {
+    main {
+        top: 70px;
+    }
+
+    #main-container-div {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .aside-div-relative {
+        width: 100%;
+    }
+
+    #your-library-aside {
+        position: relative;
+        height: min-content;
+        width: 100%;
+        position: fixed;
+        z-index: 2;
+    }
+
+    .your-library-icon-div {
+        border-bottom: 1px solid #ffffff88;
+        padding-bottom: 7px;
+    }
+
+    #main-section {
+        width: 100%;
+        position: relative;
+        top: 50px;
+
+    }
+
+
+    /* tracks-div */
+    #tracks-div {
+        justify-items: center;
+
+    }
+
+
+    #albums-div {
+        justify-items: center;
+
+    }
+
+    #artists-div {
+        justify-items: center;
+
+    }
+
+
+    #search-section {
+        justify-items: center;
+    }
+
+
+
+
+}
+
+
+
+
+@media(max-width:700px) {
+
+    #search-input {
+        visibility: hidden;
+        width: 0;
+        transition: 2s;
+        /* animation-iteration-count: infinite; */
+        /* animation-duration: 2s; */
+    }
+
+
+    #header-form {
+        width: min-content;
+        background-color: black;
+        /* transition: 2s; */
+    }
+
+    footer {
+        padding-top: 0;
+    }
+
+    .footer-main-div {
+        display: flex;
+        flex-direction: column-reverse;
+
+    }
+
+    .footer-icon-div {
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+
+}

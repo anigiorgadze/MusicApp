@@ -1,45 +1,4 @@
 
-
-// const waveform = document.getElementById("waveform")
-// const wavesurfer = WaveSurfer.create({
-//   "container": waveform,
-//   "height": 25,
-//   "width": 300,
-//   "splitChannels": false,
-//   "normalize": false,
-//   "waveColor": "#ffffff",
-//   "progressColor": "#0be994",
-//   "cursorColor": "#000000",
-//   "cursorWidth": 2,
-//   "barWidth": 2,
-//   "barGap": 2,
-//   "barRadius": null,
-//   "barHeight": null,
-//   "barAlign": "",
-//   "minPxPerSec": 1,
-//   "fillParent": true,
-//   "url": "./audio.mp3",
-//   "autoplay": false,
-//   "interact": true,
-//   "dragToSeek": true,
-//   "hideScrollbar": false,
-//   "audioRate": 1,
-//   "autoScroll": true,
-//   "autoCenter": true,
-//   "sampleRate": 8000
-// })
-
-
-// const playBtn = document.querySelector('.play-music-album1');
-
-// wavesurfer.on('ready', function(){
-//   playBtn.addEventListener('click', () => {
-//     wavesurfer.playPause();
-//     playBtn.textContent = wavesurfer.isPlaying() ? "Pause" : "Play";
-//   })
-// })
-
-
 const myKey = `b71e321d32ba1844cc0df4d9d8a583a2`;
 const myApi = `https://api.jamendo.com/v3.0/tracks/?client_id=fd9b5391&limit=100&order=popularity_total_desc`
 
@@ -54,6 +13,33 @@ const tracksSection = document.getElementById("tracks-div");
 
 const mainDisplay = document.getElementsByClassName("section-none");
 const chooseMusic = document.getElementById("choosen-music");
+
+const addMusicBtn =document.getElementsByClassName('add-button-order')
+
+// library ICON style
+const mainSection = document.getElementById('main-section')
+let libraryIcon = document.getElementsByClassName('library-icon')
+const libraryAside = document.getElementById('your-library-aside')
+
+let iconBoolean = false
+libraryIcon[0].addEventListener('click',()=>{
+  iconBoolean = !iconBoolean
+
+  if(iconBoolean){
+    libraryAside.style.height = '300px'
+    mainSection.style.top = '300px'
+  }else{
+    libraryAside.style.height = 'min-content'
+    mainSection.style.top = '50px'
+  }
+  
+})
+
+  let choosenTrack = document.getElementById("choosen-music-div")
+  // chooseMusic.style.display = 'block'
+  let chooseMusicDiv = document.getElementsByClassName('choosen-music-album-img')[0]
+  let chooseMusicArtistText = document.getElementsByClassName('choose-music-name-artist-text')
+  let musicsLists =document.getElementById('musics-lists')
 
 const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
   return response.json();
@@ -86,9 +72,111 @@ const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b539
     })
   }
 
-  
+
+
+
   for(let i=0; i < posterDivHover.length; i++){
     posterDivHover[i].addEventListener("click", function(){
+      chooseMusic.style.display = 'block'
+      let artistName1 = posterDivHover[i].querySelector('.artist-name').innerHTML
+      let totalDuration = 0
+      chooseMusicDiv.src = posterDivHover[i].querySelector(".poster-img").src
+
+
+      var playBtn = document.getElementById('playBtn');
+
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#ffffff88',
+        progressColor: '#0be994',
+        height:90,
+        barRadius:4,
+        responsive:true,
+       
+                   
+      });
+
+      playBtn.onclick = function(){
+  
+        wavesurfer.playPause();
+        
+        if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+          playBtn.src = "./main-icons/pause-icon.png"
+          console.log('yes')
+        }else{
+          playBtn.src = "./main-icons/play-icon1.png"
+          console.log('no')
+        }
+      }
+
+      wavesurfer.on('finish',function(){
+          playBtn.src = "./main-icons/play-icon1.png";
+          wavesurfer.stop();
+      })
+
+      
+                  
+
+      let j = 0  
+      for(let x=0; x<data.results.length;x++){
+        if(data.results[x].artist_name == artistName1){
+              
+          j++
+          totalDuration += data.results[x].duration
+          musicsLists.innerHTML +=  `<div class="artists-music-div-play">
+          <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${j}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data.results[x].name}</p>
+                <p class="group-name-order">${data.results[x].artist_name}</p>
+              </div>
+                    
+              </div>
+                <div class="add-music-div-duration">
+                  <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
+                </div>
+              </div>`;
+          
+          chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+      
+          let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+
+          for(let a=0; a<artistDiv.length;a++){
+            artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+              let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+              let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+              let resultUrl = data.results.filter((item)=>{
+                if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                  return item.audio
+                }
+                
+              })
+              console.log(resultUrl[0].audio);
+
+              wavesurfer.load(resultUrl[0].audio);
+              wavesurfer.playPause();
+
+              if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                playBtn.src = "./main-icons/pause-icon.png"
+                console.log('yes')
+              }else{
+                playBtn.src = "./main-icons/play-icon1.png"
+                console.log('no')
+              }
+              
+            })
+
+            addMusicBtn[a].addEventListener('click',()=>{
+              console.log( artistDiv[a])
+              // console.log(addMusicBtn[a].parentElement.parentElement.querySelector("."))
+            })
+          }
+          
+        }
+      }
+
       for(let i=0; i<mainDisplay.length; i++){
         mainDisplay[i].style.display = "none"
       }
@@ -144,6 +232,100 @@ showAllSection1.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover.length; i++){
         posterDivHover[i].addEventListener("click", function(){
+          chooseMusic.style.display = 'block'
+      let artistName1 = posterDivHover[i].querySelector('.artist-name').innerHTML
+      let totalDuration = 0
+      chooseMusicDiv.src = posterDivHover[i].querySelector(".poster-img").src
+
+
+      var playBtn = document.getElementById('playBtn');
+
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#ffffff88',
+        progressColor: '#0be994',
+        height:90,
+        barRadius:4,
+        responsive:true,
+       
+                   
+      });
+
+      playBtn.onclick = function(){
+  
+        wavesurfer.playPause();
+        
+        if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+          playBtn.src = "./main-icons/pause-icon.png"
+          console.log('yes')
+        }else{
+          playBtn.src = "./main-icons/play-icon1.png"
+          console.log('no')
+        }
+      }
+
+      wavesurfer.on('finish',function(){
+          playBtn.src = "./main-icons/play-icon1.png";
+          wavesurfer.stop();
+      })
+
+      
+                  
+
+      let j = 0  
+      for(let x=0; x<data.results.length;x++){
+        if(data.results[x].artist_name == artistName1){
+              
+          j++
+          totalDuration += data.results[x].duration
+          musicsLists.innerHTML +=  `<div class="artists-music-div-play">
+          <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${j}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data.results[x].name}</p>
+                <p class="group-name-order">${data.results[x].artist_name}</p>
+              </div>
+                    
+              </div>
+                <div class="add-music-div-duration">
+                  <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
+                </div>
+              </div>`;
+          
+          chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+      
+          let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+
+          for(let a=0; a<artistDiv.length;a++){
+            artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+              let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+              let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+              let resultUrl = data.results.filter((item)=>{
+                if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                  return item.audio
+                }
+                
+              })
+              console.log(resultUrl[0].audio);
+
+              wavesurfer.load(resultUrl[0].audio);
+              wavesurfer.playPause();
+
+              if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                playBtn.src = "./main-icons/pause-icon.png"
+                console.log('yes')
+              }else{
+                playBtn.src = "./main-icons/play-icon1.png"
+                console.log('no')
+              }
+              
+            })
+          }
+          
+        }
+      }
           for(let i=0; i<mainDisplay.length; i++){
             mainDisplay[i].style.display = "none"
           }
@@ -191,6 +373,100 @@ showAllSection1.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover.length; i++){
         posterDivHover[i].addEventListener("click", function(){
+          chooseMusic.style.display = 'block'
+      let artistName1 = posterDivHover[i].querySelector('.artist-name').innerHTML
+      let totalDuration = 0
+      chooseMusicDiv.src = posterDivHover[i].querySelector(".poster-img").src
+
+
+      var playBtn = document.getElementById('playBtn');
+
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#ffffff88',
+        progressColor: '#0be994',
+        height:90,
+        barRadius:4,
+        responsive:true,
+       
+                   
+      });
+
+      playBtn.onclick = function(){
+  
+        wavesurfer.playPause();
+        
+        if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+          playBtn.src = "./main-icons/pause-icon.png"
+          console.log('yes')
+        }else{
+          playBtn.src = "./main-icons/play-icon1.png"
+          console.log('no')
+        }
+      }
+
+      wavesurfer.on('finish',function(){
+          playBtn.src = "./main-icons/play-icon1.png";
+          wavesurfer.stop();
+      })
+
+      
+                  
+
+      let j = 0  
+      for(let x=0; x<data.results.length;x++){
+        if(data.results[x].artist_name == artistName1){
+              
+          j++
+          totalDuration += data.results[x].duration
+          musicsLists.innerHTML +=  `<div class="artists-music-div-play">
+          <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${j}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data.results[x].name}</p>
+                <p class="group-name-order">${data.results[x].artist_name}</p>
+              </div>
+                    
+              </div>
+                <div class="add-music-div-duration">
+                  <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
+                </div>
+              </div>`;
+          
+          chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+      
+          let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+
+          for(let a=0; a<artistDiv.length;a++){
+            artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+              let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+              let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+              let resultUrl = data.results.filter((item)=>{
+                if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                  return item.audio
+                }
+                
+              })
+              console.log(resultUrl[0].audio);
+
+              wavesurfer.load(resultUrl[0].audio);
+              wavesurfer.playPause();
+
+              if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                playBtn.src = "./main-icons/pause-icon.png"
+                console.log('yes')
+              }else{
+                playBtn.src = "./main-icons/play-icon1.png"
+                console.log('no')
+              }
+              
+            })
+          }
+          
+        }
+      }
           for(let j=0; j<mainDisplay.length; j++){
             mainDisplay[j].style.display = "none"
           }
@@ -244,52 +520,65 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
 
 
   const choosenTrack = document.getElementById("choosen-music-div")
-  chooseMusic.style.display = 'block'
+  // chooseMusic.style.display = 'block'
   
   for(let i=0; i < posterDivHover1.length; i++){
     posterDivHover1[i].addEventListener("click", function(){
+      chooseMusic.style.display = 'block'
       console.log(posterDivHover1[i].querySelector(".artist-name").innerHTML)
       const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
         return response.json();
       }).then((data1) =>{
-        let artistName = ` <div class="music-title-date-added-div">
-                        <div class="title-div">
-                          <p class="order discription">#<span class="title-span">Title</span></p>
-                        </div>
+        
+        
+
+      let artistName1 = posterDivHover1[i].querySelector('.artist-name').innerHTML
+      let totalDuration = 0
+      chooseMusicDiv.src = posterDivHover1[i].querySelector(".poster-img").src
 
 
-                        <div class="clockwise-div">
-                          <img class="clockwise-icon" src="./main-icons/clockwise.png" alt="clockwise">
-                        </div>
-                      </div>`
-            let chooseMusicHead = `<div class="choosen-music-above-div">
-                      <div class="album-image-choosen-music-div">
-                        <img class="choosen-music-album-img" src=${posterDivHover1[i].querySelector(".poster-img").src} alt="">
-                      </div>
-                      
-                      <div class="album-artist-name-div">
-                        <h1 class="choose-music-name-album"></h1>
-                        <div class="choose-music-name-artist-div">
-                          <h6 class="choose-music-name-artist-text">${posterDivHover1[i].querySelector(".artist-name").innerHTML}<span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
-                        </div>
-                      </div>
-                    
-                    </div>
+      var playBtn = document.getElementById('playBtn');
 
-                    <div class="play-music-album-padding">
-                      <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
-                      <button class="play-music-album1">CLICK</button>
-                      <div id="waveform"></div>
-                    </div>` 
-            choosenTrack.innerHTML = ''
-            choosenTrack.innerHTML += chooseMusicHead
-            choosenTrack.innerHTML += artistName;
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#ffffff88',
+        progressColor: '#0be994',
+        height:90,
+        barRadius:4,
+        responsive:true,
+       
+                   
+      });
+
+      playBtn.onclick = function(){
+  
+        wavesurfer.playPause();
+        
+        if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+          playBtn.src = "./main-icons/pause-icon.png"
+          console.log('yes')
+        }else{
+          playBtn.src = "./main-icons/play-icon1.png"
+          console.log('no')
+        }
+      }
+
+      wavesurfer.on('finish',function(){
+          playBtn.src = "./main-icons/play-icon1.png";
+          wavesurfer.stop();
+      })
+
+        let j = 0    
+       
         for(let x = 0;x <20;x++){
+          
           if(data1.results[x].id.includes(i)){
-            choosenTrack.innerHTML +=  `<div class="artists-music-div-play">
+            j++
+            totalDuration += data1.results[x].duration
+            musicsLists.innerHTML +=  `<div class="artists-music-div-play">
             <div class="music-order-div">
               <img class="play-music-order" src="./main-icons/play.png" alt="">
-              <p class="music-order-number">${x+1}</p>
+              <p class="music-order-number">${j}</p>
               <div class="artist-album-name-order-div">
                 <p class="song-name-order">${data1.results[x].name}</p>
                 <p class="group-name-order">${data1.results[x].artist_name}</p>
@@ -302,7 +591,39 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
               </div>
             </div>`;
           }
+
+
+          chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+      
+          let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+
+          for(let a=0; a<artistDiv.length;a++){
+            artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+              let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+              let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+              let resultUrl = data1.results.filter((item)=>{
+                if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                  return item.audio
+                }
+                
+              })
+              console.log(resultUrl[0].audio);
+
+              wavesurfer.load(resultUrl[0].audio);
+              wavesurfer.playPause();
+
+              if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                playBtn.src = "./main-icons/pause-icon.png"
+                console.log('yes')
+              }else{
+                playBtn.src = "./main-icons/play-icon1.png"
+                console.log('no')
+              }
+              
+            })
+          }
         }
+
         for(let i=0; i<mainDisplay.length; i++){
               mainDisplay[i].style.display = "none"
         }
@@ -367,6 +688,104 @@ showAllSection2.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover1.length; i++){
         posterDivHover1[i].addEventListener("click", function(){
+          chooseMusic.style.display = 'block'
+          const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+            return response.json();
+          }).then((data1) =>{
+            
+            
+    
+          let artistName1 = posterDivHover1[i].querySelector('.artist-name').innerHTML
+          let totalDuration = 0
+          chooseMusicDiv.src = posterDivHover1[i].querySelector(".poster-img").src
+    
+    
+          var playBtn = document.getElementById('playBtn');
+    
+          var wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#ffffff88',
+            progressColor: '#0be994',
+            height:90,
+            barRadius:4,
+            responsive:true,
+           
+                       
+          });
+    
+          playBtn.onclick = function(){
+      
+            wavesurfer.playPause();
+            
+            if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+              playBtn.src = "./main-icons/pause-icon.png"
+              console.log('yes')
+            }else{
+              playBtn.src = "./main-icons/play-icon1.png"
+              console.log('no')
+            }
+          }
+    
+          wavesurfer.on('finish',function(){
+              playBtn.src = "./main-icons/play-icon1.png";
+              wavesurfer.stop();
+          })
+    
+            let j = 0    
+           
+            for(let x = 0;x <20;x++){
+              
+              if(data1.results[x].id.includes(i)){
+                j++
+                totalDuration += data1.results[x].duration
+                musicsLists.innerHTML +=  `<div class="artists-music-div-play">
+                <div class="music-order-div">
+                  <img class="play-music-order" src="./main-icons/play.png" alt="">
+                  <p class="music-order-number">${j}</p>
+                  <div class="artist-album-name-order-div">
+                    <p class="song-name-order">${data1.results[x].name}</p>
+                    <p class="group-name-order">${data1.results[x].artist_name}</p>
+                  </div>
+                  
+                </div>
+                  <div class="add-music-div-duration">
+                    <img class="add-button-order" src="./main-icons/add.png" alt="">
+                    <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
+                  </div>
+                </div>`;
+              }
+    
+    
+              chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+          
+              let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+    
+              for(let a=0; a<artistDiv.length;a++){
+                artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+                  let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+                  let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+                  let resultUrl = data1.results.filter((item)=>{
+                    if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                      return item.audio
+                    }
+                    
+                  })
+                  console.log(resultUrl[0].audio);
+    
+                  wavesurfer.load(resultUrl[0].audio);
+                  wavesurfer.playPause();
+    
+                  if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                    playBtn.src = "./main-icons/pause-icon.png"
+                    console.log('yes')
+                  }else{
+                    playBtn.src = "./main-icons/play-icon1.png"
+                    console.log('no')
+                  }
+                  
+                })
+              }
+            }})
           for(let i=0; i<mainDisplay.length; i++){
             mainDisplay[i].style.display = "none"
           }
@@ -414,7 +833,104 @@ showAllSection2.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover1.length; i++){
         posterDivHover1[i].addEventListener("click", function(){
-
+          chooseMusic.style.display = 'block'
+          const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+            return response.json();
+          }).then((data1) =>{
+            
+            
+    
+          let artistName1 = posterDivHover1[i].querySelector('.artist-name').innerHTML
+          let totalDuration = 0
+          chooseMusicDiv.src = posterDivHover1[i].querySelector(".poster-img").src
+    
+    
+          var playBtn = document.getElementById('playBtn');
+    
+          var wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#ffffff88',
+            progressColor: '#0be994',
+            height:90,
+            barRadius:4,
+            responsive:true,
+           
+                       
+          });
+    
+          playBtn.onclick = function(){
+      
+            wavesurfer.playPause();
+            
+            if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+              playBtn.src = "./main-icons/pause-icon.png"
+              console.log('yes')
+            }else{
+              playBtn.src = "./main-icons/play-icon1.png"
+              console.log('no')
+            }
+          }
+    
+          wavesurfer.on('finish',function(){
+              playBtn.src = "./main-icons/play-icon1.png";
+              wavesurfer.stop();
+          })
+    
+            let j = 0    
+           
+            for(let x = 0;x <20;x++){
+              
+              if(data1.results[x].id.includes(i)){
+                j++
+                totalDuration += data1.results[x].duration
+                musicsLists.innerHTML +=  `<div class="artists-music-div-play">
+                <div class="music-order-div">
+                  <img class="play-music-order" src="./main-icons/play.png" alt="">
+                  <p class="music-order-number">${j}</p>
+                  <div class="artist-album-name-order-div">
+                    <p class="song-name-order">${data1.results[x].name}</p>
+                    <p class="group-name-order">${data1.results[x].artist_name}</p>
+                  </div>
+                  
+                </div>
+                  <div class="add-music-div-duration">
+                    <img class="add-button-order" src="./main-icons/add.png" alt="">
+                    <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
+                  </div>
+                </div>`;
+              }
+    
+    
+              chooseMusicArtistText[0].innerHTML = `${artistName1} • ${j} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+          
+              let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+    
+              for(let a=0; a<artistDiv.length;a++){
+                artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+                  let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+                  let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+                  let resultUrl = data1.results.filter((item)=>{
+                    if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                      return item.audio
+                    }
+                    
+                  })
+                  console.log(resultUrl[0].audio);
+    
+                  wavesurfer.load(resultUrl[0].audio);
+                  wavesurfer.playPause();
+    
+                  if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                    playBtn.src = "./main-icons/pause-icon.png"
+                    console.log('yes')
+                  }else{
+                    playBtn.src = "./main-icons/play-icon1.png"
+                    console.log('no')
+                  }
+                  
+                })
+              }
+            }})
           // console.log(posterDivHover1[i].querySelector(".track-name"))
           for(let j=0; j<mainDisplay.length; j++){
             mainDisplay[j].style.display = "none"
@@ -492,8 +1008,9 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
     // console.log(data);
     for(let i=0; i < posterDivHover2.length; i++){
       posterDivHover2[i].addEventListener("click", function(){
+        chooseMusic.style.display = 'block'
         const myArtistName = posterDivHover2[i].querySelector(".track-name");
-        console.log(posterDivHover2[i].innerHTML);
+        // console.log(posterDivHover2[i].innerHTML);
         for(let i=0; i<mainDisplay.length; i++){
           mainDisplay[i].style.display = "none";
         }
@@ -506,7 +1023,7 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
         
         const choosenTrack = document.getElementById("choosen-music-div");
 
-        chooseMusic.style.display = 'block'
+        // chooseMusic.style.display = 'block'
 
         // const albumArray = data.results.filter((item) => item.name === data.results[i].name)
         // console.log(albumArray);
@@ -521,82 +1038,51 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
         const myFetch1 = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
           return response.json();
         }).then((data1) => {
-          // console.log(data1);
-          
-
-        // const albumMusics = ` <div class="artists-music-div-play">
-        //         <div class="music-order-div">
-        //           <img class="play-music-order" src="./main-icons/play.png" alt="">
+      
+          let artistName1 = posterDivHover2[i].querySelector('.track-name').innerHTML
+          let totalDuration = 0
+          chooseMusicDiv.src = posterDivHover2[i].querySelector(".poster-img").src
 
 
-        //           ${albumArray.map((item, index) => {
-        //             return(
-        //               `                    <p class="music-order-number">${index+1}</p>
-        //           <div class="artist-album-name-order-div">
-        //             <p class="song-name-order">${item.name}</p>
-        //             <p class="group-name-order">${item.artist_name}</p>
-        //           </div>`
-        //             )
-        //           })}
+      var playBtn = document.getElementById('playBtn');
 
-        //         </div>
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: '#ffffff88',
+        progressColor: '#0be994',
+        height:90,
+        barRadius:4,
+        responsive:true,
+       
+                   
+      });
+
+      playBtn.onclick = function(){
+  
+        wavesurfer.playPause();
+        
+        if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+          playBtn.src = "./main-icons/pause-icon.png"
+          console.log('yes')
+        }else{
+          playBtn.src = "./main-icons/play-icon1.png"
+          console.log('no')
+        }
+      }
+
+      wavesurfer.on('finish',function(){
+          playBtn.src = "./main-icons/play-icon1.png";
+          wavesurfer.stop();
+      })
 
 
-        //         <div class="add-music-div-duration">
-        //           <img class="add-button-order" src="./main-icons/add.png" alt="">
-        //           <p class="duration-text">${(data.results[i].duration / 60).toFixed(2)}</p>
-        //         </div>
-        //       </div>`;
-
-
+       
         
 
-
-
-        let artistName = ` <div class="music-title-date-added-div">
-                        <div class="title-div">
-                          <p class="order discription">#<span class="title-span">Title</span></p>
-                        </div>
-
-
-                        <div class="clockwise-div">
-                          <img class="clockwise-icon" src="./main-icons/clockwise.png" alt="clockwise">
-                        </div>
-                      </div>`
-
-        
-
-
-        let chooseMusicHead = `<div class="choosen-music-above-div">
-                      <div class="album-image-choosen-music-div">
-                        <img class="choosen-music-album-img" src=${artistImg} alt="">
-                      </div>
-                      
-                      <div class="album-artist-name-div">
-                        <h1 class="choose-music-name-album"></h1>
-                        <div class="choose-music-name-artist-div">
-                          <h6 class="choose-music-name-artist-text">${data.results[i].name}<span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
-                        </div>
-                      </div>
-                    
-                    </div>
-
-                    <div class="play-music-album-padding">
-                      <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
-                      <button class="play-music-album1">CLICK</button>
-                      <div id="waveform"></div>
-                    </div>`                    
-        
-        // const result = artistName + albumsMusic
-
-        choosenTrack.innerHTML = ''
-
-        choosenTrack.innerHTML += chooseMusicHead
-
-        choosenTrack.innerHTML += artistName;
-
+        let totalDuration1 = 0
         for(let j=0; j<10;j++){
-          choosenTrack.innerHTML += ` <div class="artists-music-div-play">
+          totalDuration += data1.results[j].duration
+          musicsLists.innerHTML += ` <div class="artists-music-div-play">
           <div class="music-order-div">
             <img class="play-music-order" src="./main-icons/play.png" alt="">
             <p class="music-order-number">${j+1}</p>
@@ -615,6 +1101,36 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
               <p class="duration-text">${(data1.results[j].duration / 60).toFixed(2)}</p>
             </div>
           </div>`;
+
+          chooseMusicArtistText[0].innerHTML = `${artistName1} • ${10} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+      
+          let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+
+          for(let a=0; a<artistDiv.length;a++){
+            artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+              let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+              let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+              let resultUrl = data1.results.filter((item)=>{
+                if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                  return item.audio
+                }
+                
+              })
+              console.log(resultUrl[0].audio);
+
+              wavesurfer.load(resultUrl[0].audio);
+              wavesurfer.playPause();
+
+              if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                playBtn.src = "./main-icons/pause-icon.png"
+                console.log('yes')
+              }else{
+                playBtn.src = "./main-icons/play-icon1.png"
+                console.log('no')
+              }
+              
+            })
+          }
         }
       })
 
@@ -622,65 +1138,8 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
     }
   })
   
-  // for(let i=0; i < posterDivHover2.length; i++){
-  //   posterDivHover2[i].addEventListener("click", function(){
-  //     for(let i=0; i<mainDisplay.length; i++){
-  //       mainDisplay[i].style.display = "none";
+  
 
-  //       const choosenTrack = document.getElementById("choosen-music-div");
-
-  //       const albumMusics = ` <div class="artists-music-div-play">
-  //               <div class="music-order-div">
-  //                 <img class="play-music-order" src="./main-icons/play.png" alt="">
-  //                 <p class="music-order-number">1</p>
-  //                 <div class="artist-album-name-order-div">
-  //                   <p class="song-name-order">IV dasi - abiturientebssa</p>
-  //                   <p class="group-name-order">IV DASI</p>
-  //                 </div>
-  //               </div>
-
-
-  //               <div class="add-music-div-duration">
-  //                 <img class="add-button-order" src="./main-icons/add.png" alt="">
-  //                 <p class="duration-text">3:34</p>
-  //               </div>
-  //             </div>`;
-
-
-  //       const artistName = ` <div class="music-title-date-added-div">
-  //                       <div class="title-div">
-  //                         <p class="order discription">#<span class="title-span">Title</span></p>
-  //                       </div>
-
-
-  //                       <div class="clockwise-div">
-  //                         <img class="clockwise-icon" src="./main-icons/clockwise.png" alt="clockwise">
-  //                       </div>
-  //                     </div>`
-
-
-  //       const chooseMusicHead = `<div class="choosen-music-above-div">
-  //                     <div class="album-image-choosen-music-div">
-  //                       <img class="choosen-music-album-img" src="./main-icons/house.jpg" alt="">
-  //                     </div>
-                      
-  //                     <div class="album-artist-name-div">
-  //                       <h1 class="choose-music-name-album">AM</h1>
-  //                       <div class="choose-music-name-artist-div">
-  //                         <h6 class="choose-music-name-artist-text">Artict Monkeys <span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
-  //                       </div>
-  //                     </div>
-                    
-  //                   </div>
-
-  //                   <div class="play-music-album-padding">
-  //                     <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
-  //                   </div>`
-
-
-  //     }
-  //   })
-  // }
 })
 
 
@@ -712,8 +1171,7 @@ showAllSection3.addEventListener("click", function(){
                       <img class="poster-img artist-round" src="${artistImg}" alt="">
                     </div>
                     <img class="play-icon2" src="./main-icons/play-icon1.png" alt="">
-                    <p class="track-name">${data.results[i].name}</p>
-                    <p class="artist-name">${data.results[i].artist_name}</p>
+                   <p class="track-name">${data.results[i].name}</p>
                   </div>`
       }
 
@@ -740,6 +1198,104 @@ showAllSection3.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover2.length; i++){
         posterDivHover2[i].addEventListener("click", function(){
+          const myFetch1 = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+            return response.json();
+          }).then((data1) => {
+        
+            let artistName1 = posterDivHover2[i].querySelector('.track-name').innerHTML
+            let totalDuration = 0
+            chooseMusicDiv.src = posterDivHover2[i].querySelector(".poster-img").src
+  
+  
+        var playBtn = document.getElementById('playBtn');
+  
+        var wavesurfer = WaveSurfer.create({
+          container: '#waveform',
+          waveColor: '#ffffff88',
+          progressColor: '#0be994',
+          height:90,
+          barRadius:4,
+          responsive:true,
+         
+                     
+        });
+  
+        playBtn.onclick = function(){
+    
+          wavesurfer.playPause();
+          
+          if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+            playBtn.src = "./main-icons/pause-icon.png"
+            console.log('yes')
+          }else{
+            playBtn.src = "./main-icons/play-icon1.png"
+            console.log('no')
+          }
+        }
+  
+        wavesurfer.on('finish',function(){
+            playBtn.src = "./main-icons/play-icon1.png";
+            wavesurfer.stop();
+        })
+  
+  
+         
+          
+  
+          let totalDuration1 = 0
+          for(let j=0; j<10;j++){
+            totalDuration += data1.results[j].duration
+            musicsLists.innerHTML += ` <div class="artists-music-div-play">
+            <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${j+1}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data1.results[j].name}</p>
+                <p class="group-name-order">${data1.results[j].artist_name}</p>
+              </div>
+              
+  
+  
+            </div>
+  
+  
+              <div class="add-music-div-duration">
+                <img class="add-button-order" src="./main-icons/add.png" alt="">
+                <p class="duration-text">${(data1.results[j].duration / 60).toFixed(2)}</p>
+              </div>
+            </div>`;
+  
+            chooseMusicArtistText[0].innerHTML = `${artistName1} • ${10} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+        
+            let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+  
+            for(let a=0; a<artistDiv.length;a++){
+              artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+                let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+                let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+                let resultUrl = data1.results.filter((item)=>{
+                  if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                    return item.audio
+                  }
+                  
+                })
+                console.log(resultUrl[0].audio);
+  
+                wavesurfer.load(resultUrl[0].audio);
+                wavesurfer.playPause();
+  
+                if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                  playBtn.src = "./main-icons/pause-icon.png"
+                  console.log('yes')
+                }else{
+                  playBtn.src = "./main-icons/play-icon1.png"
+                  console.log('no')
+                }
+                
+              })
+            }
+          }
+        })
           for(let i=0; i<mainDisplay.length; i++){
             mainDisplay[i].style.display = "none"
           }
@@ -768,7 +1324,6 @@ showAllSection3.addEventListener("click", function(){
                     </div>
                     <img class="play-icon2" src="./main-icons/play-icon1.png" alt="">
                     <p class="track-name">${data.results[i].name}</p>
-                    <p class="artist-name">${data.results[i].artist_name}</p>
                   </div>`
       }
       const posterDivHover2 = document.getElementsByClassName('poster-div2');
@@ -788,9 +1343,10 @@ showAllSection3.addEventListener("click", function(){
         })
       }
 
-
+      
       for(let i=0; i < posterDivHover2.length; i++){
         posterDivHover2[i].addEventListener("click", function(){
+          
           for(let j=0; j<mainDisplay.length; j++){
             mainDisplay[j].style.display = "none"
           }
@@ -805,6 +1361,53 @@ showAllSection3.addEventListener("click", function(){
 
 const searchInput = document.getElementById("search-input")
 const searchSection = document.getElementById("search-section")
+const searchLogo = document.getElementsByClassName('search-logo')
+let searchboolean = false
+const signInDiv = document.getElementsByClassName("sign-log-div")[0]
+console.log(searchInput)
+
+// ------------------
+searchLogo[0].addEventListener('click',()=>{
+  function checkScreenSize() {
+  
+    if (window.matchMedia("(max-width: 700px)").matches) {
+      
+        searchboolean = !searchboolean
+        if(searchboolean){
+          // searchInput.style.animationDuration = '3s'
+          searchInput.style.transition = '3s'
+          searchInput.style.visibility = 'visible'
+          // searchInput.style.animationIterationCount = 'infinite'
+          // searchInput.style.display= 'block'
+          searchInput.style.width = '240px'
+          searchInput.style.fontSize = '17px'
+          
+          signInDiv.style.display = 'none'
+          
+        }else{
+          searchInput.style.transition = '3s'
+          searchInput.style.visibility = 'hidden'
+          signInDiv.style.display = 'flex'
+          // searchInput.style.animationDuration = '3s'
+          searchInput.style.width = '0'
+          
+      }}else{
+          searchInput.style.visibility = 'visible'
+    }
+ 
+  }
+  
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
+})
+
+// Call the function on load
+
+
+// Add an event listener for screen resize
+
+
+// --------------------------
 
 searchInput.addEventListener("input", (e) =>{
 
@@ -825,7 +1428,7 @@ searchInput.addEventListener("input", (e) =>{
         return [result.toLowerCase(),item.image,item.name,item.artist_name,item.audio]
       })
 
-      console.log(nameOfarr)
+      // console.log(nameOfarr)
       let newArr = nameOfarr.filter((item) =>{
         return item[0].includes(inpuValue)
       })
@@ -1056,58 +1659,10 @@ Button[2].addEventListener("click", () =>{
     SurnameOfregister.value = ""
     DateOfregister.value = ""
   }
-  // console.log(sum)
+  
 })
 
 
-// const albumMusics = ` <div class="artists-music-div-play">
-//                 <div class="music-order-div">
-//                   <img class="play-music-order" src="./main-icons/play.png" alt="">
-//                   <p class="music-order-number">1</p>
-//                   <div class="artist-album-name-order-div">
-//                     <p class="song-name-order">IV dasi - abiturientebssa</p>
-//                     <p class="group-name-order">IV DASI</p>
-//                   </div>
-//                 </div>
 
-
-//                 <div class="add-music-div-duration">
-//                   <img class="add-button-order" src="./main-icons/add.png" alt="">
-//                   <p class="duration-text">3:34</p>
-//                 </div>
-//               </div>`;
-
-
-// const artistName = ` <div class="music-title-date-added-div">
-//                 <div class="title-div">
-//                   <p class="order discription">#<span class="title-span">Title</span></p>
-//                 </div>
-
-
-//                 <div class="clockwise-div">
-//                   <img class="clockwise-icon" src="./main-icons/clockwise.png" alt="clockwise">
-//                 </div>
-//               </div>`
-
-
-// const chooseMusicHead = `<div class="choosen-music-above-div">
-//               <div class="album-image-choosen-music-div">
-//                 <img class="choosen-music-album-img" src="./main-icons/house.jpg" alt="">
-//               </div>
-              
-//               <div class="album-artist-name-div">
-//                 <h1 class="choose-music-name-album">AM</h1>
-//                 <div class="choose-music-name-artist-div">
-//                   <h6 class="choose-music-name-artist-text">Artict Monkeys <span class="date-span">• 2013 • 12 songs, 41 min 47 sec</span></h6>
-//                 </div>
-//               </div>
-            
-//             </div>
-
-//             <div class="play-music-album-padding">
-//               <img class="play-music-album" src="./main-icons/play-icon1.png" alt="">
-//             </div>`
-
-// const choosenTrack = document.getElementById("choosen-music-div");
 
 
