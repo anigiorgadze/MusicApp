@@ -1,6 +1,7 @@
 @media (max-width:1300px) {
     main {
         top: 70px;
+        padding: 0 10px;
     }
 
     #main-container-div {
@@ -16,8 +17,9 @@
         position: relative;
         height: min-content;
         width: 100%;
-        position: fixed;
+        position: Block;
         z-index: 2;
+        overflow: hidden;
     }
 
     .your-library-icon-div {
@@ -28,8 +30,8 @@
     #main-section {
         width: 100%;
         position: relative;
-        top: 50px;
-
+        top: 10px;
+       
     }
 
 
@@ -55,6 +57,9 @@
         justify-items: center;
     }
 
+    .album-musics-toplay-div {
+        width: 80%;
+    }
 
 
 
@@ -80,6 +85,7 @@
         /* transition: 2s; */
     }
 
+ 
     footer {
         padding-top: 0;
     }
@@ -94,6 +100,11 @@
         justify-content: center;
         padding-bottom: 20px;
     }
+    
+    .album-musics-toplay-div {
+        width: 100%;
+    }
+
 
 
 }
