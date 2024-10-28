@@ -6,12 +6,12 @@ let userData = {
   music:[]
 }
 
-function addLocalStorage(listName,item){
-  localStorage.setItem(listName,item)
-  return localStorage.getItem('key','value')
 
-}
+localStorage.setItem("username","musiclist")
 // localStorage.clear()
+
+
+
 const myKey = `b71e321d32ba1844cc0df4d9d8a583a2`;
 const myApi = `https://api.jamendo.com/v3.0/tracks/?client_id=fd9b5391&limit=100&order=popularity_total_desc`
 
@@ -28,6 +28,31 @@ const mainDisplay = document.getElementsByClassName("section-none");
 const chooseMusic = document.getElementById("choosen-music");
 
 const addMusicBtn =document.getElementsByClassName('add-button-order')
+
+let sumOfliked = 0
+
+
+
+
+
+
+let LikedSongdiv = document.getElementById("liked-div-container")
+
+let myArry = []
+
+let finalrresult = []
+
+const addTofavorite = (elment) =>{
+
+  console.log(elment)
+  // LikedSongdiv.innerHTML = ""
+  for(let i =0;i < elment.length;i++){
+    console.log(elment[i])
+  
+    // LikedSongdiv.innerHTML += `<div class="contain-Ofmusiclist" > <p class="artist-name"> ${mydate[i][0]} </p> <p class="albom-name"> ${mydate[i][1]} </p></div>`
+  }
+  
+}
 
 // library ICON style
 const mainSection = document.getElementById('main-section')
@@ -59,13 +84,14 @@ const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b539
 }).then((data) => {
   console.log(data);
   for(let i=50; i<60; i++){
-    tracksDiv.innerHTML+= `              <div class="poster-div">
+    tracksDiv.innerHTML+= `<div class="poster-div">
                 <div class="poster-img-div">
                   <img class="poster-img" src="${data.results[i].image}" alt="">
                 </div>
                 <img class="play-icon" src="./main-icons/play-icon1.png" alt="">
                 <p class="track-name">${data.results[i].name}</p>
                 <p class="artist-name">${data.results[i].artist_name}</p>
+
               </div>`
   }
   const posterDivHover = document.getElementsByClassName('poster-div');
@@ -148,6 +174,7 @@ const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b539
               </div>
                 <div class="add-music-div-duration">
                   <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="booleancheck">false</p>
                   <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
                 </div>
               </div>`;
@@ -181,11 +208,22 @@ const myFetch = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b539
               
             })
 
+         
             addMusicBtn[a].addEventListener('click',()=>{
-              console.log( artistDiv[a])
-              // addLocalStorage('sss',JSON.stringify([`${artistDiv[a].querySelector(".song-name-order").innerHTML}`,`${artistDiv[a].querySelector(".group-name-order").innerHTML}`]))
-              userData.music.push([`${artistDiv[a].querySelector(".song-name-order").innerHTML}`,`${artistDiv[a].querySelector(".group-name-order").innerHTML}`])
-              console.log(userData)
+              
+              // console.log( artistDiv[a])
+              console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+              if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                sumOfliked ++ 
+                LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                <p class="number-of-music">${sumOfliked}</p>
+                <div class="container-of-names">
+                  <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                  <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                </div>
+              </div>`
+              }
             })
           }
           
@@ -305,6 +343,7 @@ showAllSection1.addEventListener("click", function(){
               </div>
                 <div class="add-music-div-duration">
                   <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="booleancheck">false</p>
                   <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
                 </div>
               </div>`;
@@ -337,6 +376,23 @@ showAllSection1.addEventListener("click", function(){
               }
               
             })
+            addMusicBtn[a].addEventListener('click',()=>{
+              
+              // console.log( artistDiv[a])
+              console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+              if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                sumOfliked ++ 
+                addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                <p class="number-of-music">${sumOfliked}</p>
+                <div class="container-of-names">
+                  <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                  <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                </div>
+              </div>`
+              }
+            })
+            
           }
           
         }
@@ -446,6 +502,7 @@ showAllSection1.addEventListener("click", function(){
               </div>
                 <div class="add-music-div-duration">
                   <img class="add-button-order" src="./main-icons/add.png" alt="">
+                  <p class="booleancheck">false</p>
                   <p class="duration-text">${(data.results[x].duration / 60).toFixed(2)}</p>
                 </div>
               </div>`;
@@ -477,6 +534,22 @@ showAllSection1.addEventListener("click", function(){
                 console.log('no')
               }
               
+            })
+            addMusicBtn[a].addEventListener('click',()=>{
+              
+              // console.log( artistDiv[a])
+              console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+              if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                sumOfliked ++ 
+                addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                <p class="number-of-music">${sumOfliked}</p>
+                <div class="container-of-names">
+                  <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                  <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                </div>
+              </div>`
+              }
             })
           }
           
@@ -602,6 +675,7 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
             </div>
               <div class="add-music-div-duration">
                 <img class="add-button-order" src="./main-icons/add.png" alt="">
+                <p class="booleancheck">false</p>
                 <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
               </div>
             </div>`;
@@ -635,6 +709,22 @@ const myFetch2 = fetch(`https://api.jamendo.com/v3.0/${albums}/?client_id=fd9b53
                 console.log('no')
               }
               
+            })
+            addMusicBtn[a].addEventListener('click',()=>{
+               
+              // console.log( artistDiv[a])
+              console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+              if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                sumOfliked ++
+                addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                <p class="number-of-music">${sumOfliked}</p>
+                <div class="container-of-names">
+                  <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                  <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                </div>
+              </div>`
+              }
             })
           }
         }
@@ -765,6 +855,7 @@ showAllSection2.addEventListener("click", function(){
                 </div>
                   <div class="add-music-div-duration">
                     <img class="add-button-order" src="./main-icons/add.png" alt="">
+                    <p class="booleancheck">false</p>
                     <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
                   </div>
                 </div>`;
@@ -798,6 +889,22 @@ showAllSection2.addEventListener("click", function(){
                     console.log('no')
                   }
                   
+                })
+                addMusicBtn[a].addEventListener('click',()=>{
+                   
+                  // console.log( artistDiv[a])
+                  console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+                  if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                    sumOfliked ++
+                    addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                    LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                    <p class="number-of-music">${sumOfliked}</p>
+                    <div class="container-of-names">
+                      <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                      <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                    </div>
+                  </div>`
+                  }
                 })
               }
             }})
@@ -910,6 +1017,7 @@ showAllSection2.addEventListener("click", function(){
                 </div>
                   <div class="add-music-div-duration">
                     <img class="add-button-order" src="./main-icons/add.png" alt="">
+                    <p class="booleancheck">false</p>
                     <p class="duration-text">${(data1.results[x].duration / 60).toFixed(2)}</p>
                   </div>
                 </div>`;
@@ -943,6 +1051,22 @@ showAllSection2.addEventListener("click", function(){
                     console.log('no')
                   }
                   
+                })
+                addMusicBtn[a].addEventListener('click',()=>{
+                   
+                  // console.log( artistDiv[a])
+                  console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+                  if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                    sumOfliked ++
+                    addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                    LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                    <p class="number-of-music">${sumOfliked}</p>
+                    <div class="container-of-names">
+                      <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                      <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                    </div>
+                  </div>`
+                  }
                 })
               }
             }})
@@ -1052,27 +1176,27 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
        
         const myFetch1 = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
           return response.json();
-        }).then((data1) => {
+         }).then((data1) => {
       
           let artistName1 = posterDivHover2[i].querySelector('.track-name').innerHTML
           let totalDuration = 0
           chooseMusicDiv.src = posterDivHover2[i].querySelector(".poster-img").src
 
 
-      var playBtn = document.getElementById('playBtn');
-
-      var wavesurfer = WaveSurfer.create({
-        container: '#waveform',
-        waveColor: '#ffffff88',
-        progressColor: '#0be994',
-        height:90,
-        barRadius:4,
-        responsive:true,
+        var playBtn = document.getElementById('playBtn');
+ 
+        var wavesurfer = WaveSurfer.create({
+         container: '#waveform',
+         waveColor: '#ffffff88',
+         progressColor: '#0be994',
+         height:90,
+         barRadius:4,
+         responsive:true,
        
                    
-      });
+       });
 
-      playBtn.onclick = function(){
+       playBtn.onclick = function(){
   
         wavesurfer.playPause();
         
@@ -1083,12 +1207,12 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
           playBtn.src = "./main-icons/play-icon1.png"
           console.log('no')
         }
-      }
+       }
 
-      wavesurfer.on('finish',function(){
+       wavesurfer.on('finish',function(){
           playBtn.src = "./main-icons/play-icon1.png";
           wavesurfer.stop();
-      })
+       })
 
 
        
@@ -1113,6 +1237,7 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
 
             <div class="add-music-div-duration">
               <img class="add-button-order" src="./main-icons/add.png" alt="">
+              <p class="booleancheck">false</p>
               <p class="duration-text">${(data1.results[j].duration / 60).toFixed(2)}</p>
             </div>
           </div>`;
@@ -1144,6 +1269,22 @@ const myFetch3 = fetch(`https://api.jamendo.com/v3.0/${artists}/?client_id=fd9b5
                 console.log('no')
               }
               
+            })
+            addMusicBtn[a].addEventListener('click',()=>{
+               
+              // console.log( artistDiv[a])
+              console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+              if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                sumOfliked ++
+                addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                <p class="number-of-music">${sumOfliked}</p>
+                <div class="container-of-names">
+                  <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                  <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                </div>
+              </div>`
+              }
             })
           }
         }
@@ -1213,29 +1354,30 @@ showAllSection3.addEventListener("click", function(){
 
       for(let i=0; i < posterDivHover2.length; i++){
         posterDivHover2[i].addEventListener("click", function(){
+          chooseMusic.style.display = 'block'
           const myFetch1 = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
             return response.json();
-          }).then((data1) => {
+           }).then((data1) => {
         
             let artistName1 = posterDivHover2[i].querySelector('.track-name').innerHTML
             let totalDuration = 0
             chooseMusicDiv.src = posterDivHover2[i].querySelector(".poster-img").src
   
   
-        var playBtn = document.getElementById('playBtn');
-  
-        var wavesurfer = WaveSurfer.create({
-          container: '#waveform',
-          waveColor: '#ffffff88',
-          progressColor: '#0be994',
-          height:90,
-          barRadius:4,
-          responsive:true,
+          var playBtn = document.getElementById('playBtn');
+   
+          var wavesurfer = WaveSurfer.create({
+           container: '#waveform',
+           waveColor: '#ffffff88',
+           progressColor: '#0be994',
+           height:90,
+           barRadius:4,
+           responsive:true,
          
                      
-        });
+         });
   
-        playBtn.onclick = function(){
+         playBtn.onclick = function(){
     
           wavesurfer.playPause();
           
@@ -1246,12 +1388,12 @@ showAllSection3.addEventListener("click", function(){
             playBtn.src = "./main-icons/play-icon1.png"
             console.log('no')
           }
-        }
+         }
   
-        wavesurfer.on('finish',function(){
+         wavesurfer.on('finish',function(){
             playBtn.src = "./main-icons/play-icon1.png";
             wavesurfer.stop();
-        })
+         })
   
   
          
@@ -1276,6 +1418,7 @@ showAllSection3.addEventListener("click", function(){
   
               <div class="add-music-div-duration">
                 <img class="add-button-order" src="./main-icons/add.png" alt="">
+                <p class="booleancheck">false</p>
                 <p class="duration-text">${(data1.results[j].duration / 60).toFixed(2)}</p>
               </div>
             </div>`;
@@ -1308,14 +1451,31 @@ showAllSection3.addEventListener("click", function(){
                 }
                 
               })
+              addMusicBtn[a].addEventListener('click',()=>{
+                 
+                // console.log( artistDiv[a])
+                console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+                if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                  sumOfliked ++
+                  addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                  LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                  <p class="number-of-music">${sumOfliked}</p>
+                  <div class="container-of-names">
+                    <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                    <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                  </div>
+                </div>`
+                }
+              })  
             }
           }
         })
+              
           for(let i=0; i<mainDisplay.length; i++){
             mainDisplay[i].style.display = "none"
           }
-        })
-      }
+      })
+    }
 
 
     })
@@ -1361,6 +1521,122 @@ showAllSection3.addEventListener("click", function(){
       
       for(let i=0; i < posterDivHover2.length; i++){
         posterDivHover2[i].addEventListener("click", function(){
+          chooseMusic.style.display = 'block'
+          const myFetch1 = fetch(`https://api.jamendo.com/v3.0/${tracks}/?client_id=fd9b5391&limit=100&order=popularity_total_desc`).then((response) => {
+            return response.json();
+           }).then((data1) => {
+        
+            let artistName1 = posterDivHover2[i].querySelector('.track-name').innerHTML
+            let totalDuration = 0
+            chooseMusicDiv.src = posterDivHover2[i].querySelector(".poster-img").src
+  
+  
+          var playBtn = document.getElementById('playBtn');
+   
+          var wavesurfer = WaveSurfer.create({
+           container: '#waveform',
+           waveColor: '#ffffff88',
+           progressColor: '#0be994',
+           height:90,
+           barRadius:4,
+           responsive:true,
+         
+                     
+         });
+  
+         playBtn.onclick = function(){
+    
+          wavesurfer.playPause();
+          
+          if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+            playBtn.src = "./main-icons/pause-icon.png"
+            console.log('yes')
+          }else{
+            playBtn.src = "./main-icons/play-icon1.png"
+            console.log('no')
+          }
+         }
+  
+         wavesurfer.on('finish',function(){
+            playBtn.src = "./main-icons/play-icon1.png";
+            wavesurfer.stop();
+         })
+  
+  
+         
+          
+  
+          let totalDuration1 = 0
+          for(let j=0; j<10;j++){
+            totalDuration += data1.results[j].duration
+            musicsLists.innerHTML += ` <div class="artists-music-div-play">
+            <div class="music-order-div">
+              <img class="play-music-order" src="./main-icons/play.png" alt="">
+              <p class="music-order-number">${j+1}</p>
+              <div class="artist-album-name-order-div">
+                <p class="song-name-order">${data1.results[j].name}</p>
+                <p class="group-name-order">${data1.results[j].artist_name}</p>
+              </div>
+              
+  
+  
+            </div>
+  
+  
+              <div class="add-music-div-duration">
+                <img class="add-button-order" src="./main-icons/add.png" alt="">
+                <p class="booleancheck">false</p>
+                <p class="duration-text">${(data1.results[j].duration / 60).toFixed(2)}</p>
+              </div>
+            </div>`;
+  
+            chooseMusicArtistText[0].innerHTML = `${artistName1} • ${10} songs, ${(totalDuration/60).toFixed(0)} min ${(totalDuration%60)} sec`
+        
+            let artistDiv = document.getElementsByClassName('artists-music-div-play') 
+  
+            for(let a=0; a<artistDiv.length;a++){
+              artistDiv[a].querySelector('.artist-album-name-order-div').addEventListener('click',()=>{
+                let mymusicname = artistDiv[a].querySelector('.song-name-order').innerHTML
+                let mymusticArtistName = artistDiv[a].querySelector('.group-name-order').innerHTML
+                let resultUrl = data1.results.filter((item)=>{
+                  if(item.name == mymusicname && item.artist_name == mymusticArtistName){
+                    return item.audio
+                  }
+                  
+                })
+                console.log(resultUrl[0].audio);
+  
+                wavesurfer.load(resultUrl[0].audio);
+                wavesurfer.playPause();
+  
+                if( playBtn.src == "http://127.0.0.1:5502/musicApp/main-icons/play-icon1.png"){
+                  playBtn.src = "./main-icons/pause-icon.png"
+                  console.log('yes')
+                }else{
+                  playBtn.src = "./main-icons/play-icon1.png"
+                  console.log('no')
+                }
+                
+              })
+              addMusicBtn[a].addEventListener('click',()=>{
+                 
+                // console.log( artistDiv[a])
+                console.log(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML)
+                if(addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML === "false"){
+                  sumOfliked ++
+                  addMusicBtn[a].parentElement.querySelector(".booleancheck").innerHTML = "true"
+                  LikedSongdiv.innerHTML += `<div class="liked-songs-div">
+                  <p class="number-of-music">${sumOfliked}</p>
+                  <div class="container-of-names">
+                    <p class="name-of-music">${addMusicBtn[a].parentElement.parentElement.querySelector(".song-name-order").innerHTML}</p>
+                    <p class="name-of-artist">${addMusicBtn[a].parentElement.parentElement.querySelector(".group-name-order").innerHTML}</p>
+                  </div>
+                </div>`
+                }
+              })
+            }
+          }
+        })
           
           for(let j=0; j<mainDisplay.length; j++){
             mainDisplay[j].style.display = "none"

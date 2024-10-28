@@ -753,3 +753,39 @@ h6 {
 .artist-id {
   display: none;
 }
+
+                
+.booleancheck{
+  display: none;
+}
+
+
+/* style of liked music */
+
+#liked-div-container{
+  padding: 10px 31px;
+
+}
+
+.liked-songs-div{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  /* background-color: #393939; */
+}
+
+.liked-songs-div:hover{
+  transition: 0.3s;
+  background-color: #393939;
+  cursor: pointer;
+}
+
+.container-of-names{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  
+  gap: 10px;
+}
