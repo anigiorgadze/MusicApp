@@ -1,3 +1,7 @@
+const logoMain = document.getElementsByClassName('logo')
+logoMain[0].addEventListener('click',()=>{
+  location.reload()
+})
 
 let userData = {
   name: "",
